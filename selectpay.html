@@ -24,7 +24,7 @@
 </head>
 <body>
 <div class="container" id="app">
-    <div id="show" v-show="flag"></div>
+    <div id="show" v-show="shadow"></div>
     <header>
         <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
         <p>选择支付</p>
@@ -34,7 +34,7 @@
             <p>订单需付金额</p>
             <p v-cloak>{{money}}元</p>
         </div>
-        <div class="list" @click="flag=true">
+        <div class="list" @click="changeshow">
             <div class="left">
                 <img src="https://csyueshi.com/icon/yuepay.png" alt=""><span>余额支付</span>
             </div>
@@ -52,7 +52,7 @@
                 <p class="tip">需要支付{{money}}</p>
                 <input type="password" v-model="pwd" placeholder="请输入支付密码">
                 <div class="item">
-                    <a href="#" @click.prevent="flag=false">取消</a>
+                    <a href="#" @click.prevent="cancel">取消</a>
                     <a href="#" @click.prevent="pay">支付</a>
                 </div>
             </div>
@@ -60,7 +60,7 @@
         <div class="confirmpay" v-show="confirm" v-cloak>
             <p class="titles">请确认微信支付是否完成</p>
             <a href="myorder.html">已完成支付</a>
-            <p class="no" @click="confirm=false">支付遇到问题，重新支付</p>
+            <p class="no" @click="again">支付遇到问题，重新支付</p>
         </div>
     </main>
 </div>
@@ -74,7 +74,8 @@
             orderid : 0,
             pwd : '',
             info :{},
-            confirm : false
+            confirm : false,
+            shadow :false
         },
         methods:{
             getdata(){
@@ -102,9 +103,22 @@
                     console.log(url);
                     window.location.href=url;
                     setTimeout(()=>{
+                        this.shadow = true;
                         this.confirm=true;
-                    },10000)
+                    },4000)
                 })
+            },
+            changeshow(){
+                this.flag = true;
+                this.shadow = true;
+            },
+            cancel(){
+                this.flag = false;
+                this.shadow = true;
+            },
+            again(){
+                this.confirm = false;
+                this.shadow = false;
             }
         },
         created(){
