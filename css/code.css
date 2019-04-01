@@ -1,0 +1,65 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background: url("https://csyueshi.com/icon/qrcodebj.jpg") no-repeat center;
+  background-size: cover;
+  height: 100%;
+}
+
+body, html {
+  height: 100%;
+}
+
+header {
+  position: relative;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+main{
+
+}
+main .top {
+  display: flex;
+  justify-content: center;
+}
+main .top img {
+  width: 2.1333333333rem;
+  height: 2.1333333333rem;
+  margin-top: 1rem;
+  margin-right: 0.32rem;
+}
+main .top .name {
+  margin-top: 1.28rem;
+  font-size: 0.8106666667rem;
+  font-weight: 700;
+  color: #fff;
+}
+#code {
+  text-align: center;
+  width: 7.4666666667rem;
+  height: 7.4666666667rem;
+  margin: 8.8933333333rem auto 0;
+}
+#code img {
+  width: 100%;
+  height: 100%;
+  border:5px solid #fff;
+}
+
+/*# sourceMappingURL=code.css.map */

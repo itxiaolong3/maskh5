@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的资产</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/myasset.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>我的资产</p>
+    </header>
+    <main>
+        <div class="as-top">
+            <a href="consumeHistory.html" class="as-topone">记录</a>
+            <div class="as-topmiddle">
+                <img src="https://csyueshi.com/icon/mymoneyicon.png" alt="">
+                <p>大米</p>
+                <p>￥{{data.wallet}}</p>
+            </div>
+            <a href="catch.html" class="as-topone">提现</a>
+        </div>
+        <p class="as-function">功能</p>
+        <div class="as-list">
+            <a href="Vipcard.html" class="as-lists" @click.prevent="judge">
+                <img src="./images/asset_07.jpg" alt="">
+                <div class="as-text">
+                    <p>会员卡</p>
+                    <p>1张</p>
+                </div>
+            </a>
+            <a href="inputpay.html" class="as-lists" @click.prevent="testpay">
+                <img src="./images/asset_07.jpg" alt="">
+                <div class="as-text">
+                    <p>支付密码</p>
+                    <p>设置/修改</p>
+                </div>
+            </a>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el :'#app',
+        data :{
+            uid :0,
+            data :{}
+        },
+        methods:{
+            judge(){
+                if(this.data.level==0){
+                    layer.open({content: '不是会员,不可领取', skin: 'msg',time : 2});
+                    return false;
+                }else{
+                    window.location.href='Vipcard.html';
+                }
+            },
+            testpay(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Getpaypsw&uid=${this.uid}`).then(res=>{
+                    console.log(res);
+                    if(res.data.code==1){  //无
+                        window.location.href='inputpay.html';
+                    }else{
+                        layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                        setTimeout(()=>{
+                            window.location.href='setpaypassword.html';
+                        },500)
+                    }
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Getwallet&uid=${this.uid}`).then(res=>{
+                this.data =res.data.data;
+                console.log(this.data);
+            })
+        }
+    })
+</script>
+</body>
+</html>

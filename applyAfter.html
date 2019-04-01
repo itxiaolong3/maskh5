@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>售后申请</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/applyAfter.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>售后申请</p>
+    </header>
+    <main>
+        <div class="top">
+            <img src="./images/classifgover_07.jpg" alt="">
+            <div class="info">
+                <p class="name">紫色魅影面膜10盒 ￥399</p>
+                <div>
+                    <span>￥399.00</span><span>X1</span>
+                </div>
+            </div>
+        </div>
+        <div class="input">
+            <p><input type="text" v-model="name" placeholder="请输入支付宝姓名"></p>
+            <p><input type="text" v-model="account" placeholder="请输入支付宝账号"></p>
+        </div>
+        <div class="serve">
+            <span>服务类型</span>
+            <p :class="{'active' : type==1}" @click="type=1">退货退款</p>
+            <p :class="{'active' : type==2}" @click="type=2">仅退款</p>
+        </div>
+        <a href="#" class="submit" @click="submit">提交退款申请</a>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            orderid : 0,
+            type : 1,
+            name : '',
+            account : ''
+        },
+        methods:{
+            submit(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Aftersale&oid=${this.orderid}&zfbnum=${this.account}&zfbname=${this.name}&type=${this.type}`).then(res=>{
+                    console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code==1){
+                        setTimeout(()=>{
+                            window.history.go(-1);
+                        },800)
+                    }
+                })
+            }
+        },
+        created(){
+            function getQueryString(name){
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]);return '';
+            }
+            this.orderid=getQueryString("orderid");
+        }
+    })
+</script>
+</body>
+</html>

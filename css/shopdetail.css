@@ -1,0 +1,179 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: white;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #000000;
+  z-index: 999;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 2.1333333333rem;
+}
+main .swiper-container {
+  width: 100%;
+  height: 15.5733333333rem;
+}
+main .swiper-container img {
+  width: 100%;
+  height: 100%;
+}
+main .sd-title {
+  background-color: white;
+  padding-bottom: 0.4266666667rem;
+}
+main .sd-title p {
+  padding-left: 0.5973333333rem;
+}
+main .sd-title p:first-child {
+  font-size: 0.6186666667rem;
+  padding-top: 0.4266666667rem;
+  font-weight: 700;
+}
+main .sd-title p:nth-of-type(2) {
+  color: #ed1731;
+  font-size: 0.96rem;
+  margin: 0.32rem 0 0.2133333333rem 0;
+  font-weight: 700;
+}
+main .sd-title p:last-child {
+  padding-left: 0.768rem;
+  font-size: 0.5333333333rem;
+}
+main .sd-title .sd-parameter {
+  margin: 0 0.5333333333rem;
+}
+main .sd-item {
+  height: 0.64rem;
+  background-color: #f8f8f8;
+}
+main .sd-count {
+  background-color: white;
+  height: 2.56rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.5973333333rem;
+  padding-left: 0.5546666667rem;
+}
+main .sd-count .sd-operation {
+  display: inline-block;
+  height: 0.96rem;
+  width: 0.96rem;
+  background-color: #f1f1f1;
+  text-align: center;
+  font-size: 0.7466666667rem;
+  margin: 0 0.2133333333rem;
+}
+main .sd-count .sd-reduce {
+  border-radius: 0.1493333333rem 0 0 0.1493333333rem;
+}
+main .sd-count .sd-num {
+  height: 0.96rem;
+  width: 0.96rem;
+  text-align: center;
+  font-size: 0.4906666667rem;
+  border: 0;
+  outline: none;
+}
+main .sd-count .sd-add {
+  border-radius: 0 0.1493333333rem 0.1493333333rem 0;
+}
+main .sd-detial .sd-detailx {
+  height: 2.1333333333rem;
+  line-height: 2.1333333333rem;
+  text-align: center;
+  font-size: 0.5973333333rem;
+  background-color: white;
+}
+main .sd-detial img {
+  width: 100%;
+  height: 100%;
+}
+main .sd-detial .sd-shopbottom {
+  background-color: #f8f8f8;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+  background-color: white;
+  margin: 0 auto;
+  height: 2.0693333333rem;
+  border-top: 1px solid #e8e8e8;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+footer .sd-com {
+  height: 1.7066666667rem;
+  border-radius: 0.2346666667rem;
+  width: 4.2666666667rem;
+  font-size: 0.512rem;
+  font-weight: 700;
+  line-height: 1.7066666667rem;
+  color: white;
+}
+footer .sd-addcart {
+  margin-left: 1.28rem;
+  margin-right: 0.3626666667rem;
+  background-color: #242121;
+}
+footer .sd-buy {
+  background-color: #ed1731;
+}
+footer .sd-cart {
+  margin: 0 1.8133333333rem 0 1.1733333333rem;
+}
+footer .sd-footeritem {
+  font-size: 0.4266666667rem;
+  color: #7d7d7d;
+}
+footer .sd-footeritem img {
+  width: 0.9173333333rem;
+  height: 0.9173333333rem;
+}
+footer .sd-love div {
+  margin-top: 0.064rem;
+  width: 0.7466666667rem;
+  height: 0.7466666667rem;
+  overflow: hidden;
+  background: url("../images/love.jpg") no-repeat 0px 0/cover;
+  transition: 1s;
+}
+footer .sd-love p {
+  margin-top: 0.0853333333rem;
+}
+
+.love {
+  background: url("../images/love.jpg") no-repeat -0.7466666667rem 0/cover !important;
+}
+
+/*# sourceMappingURL=shopdetail.css.map */

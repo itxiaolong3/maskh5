@@ -1,0 +1,173 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 3.2rem;
+}
+main .pl-top {
+  height: 7.68rem;
+  background-color: #e9323c;
+  text-align: center;
+}
+main .pl-top .pl-head {
+  width: 2.7733333333rem;
+  height: 2.7733333333rem;
+  border-radius: 50%;
+  margin-top: 1.8773333333rem;
+}
+main .pl-top p {
+  font-size: 0.768rem;
+  color: #fff;
+  font-weight: 700;
+}
+main .pl-top .pl-classify img {
+  width: 0.8533333333rem;
+  height: 0.8533333333rem;
+  vertical-align: middle;
+  margin-right: 0.0853333333rem;
+}
+main .pl-top .pl-classify span {
+  display: inline-block;
+  height: 1.0666666667rem;
+  padding: 0 0.1rem;
+  text-align: center;
+  line-height: 1.0666666667rem;
+  font-size: 0.5546666667rem;
+  background-color: #0f8bc6;
+  border-radius: 0.1706666667rem;
+  color: #fff;
+  margin-right: 0.1rem;
+}
+main .Agreement {
+  display: block;
+  height: 1.4933333333rem;
+  line-height: 1.4933333333rem;
+  text-align: center;
+  font-size: 0.5546666667rem;
+  color: #121212;
+  background-color: #fff;
+}
+main .vc-see {
+  box-sizing: border-box;
+  border-radius: 0.4266666667rem;
+  background-color: #fff;
+  width: 96%;
+  margin: 1.0666666667rem 2% 0 2%;
+  padding: 0.7466666667rem 0.4693333333rem 0.384rem;
+}
+main .vc-see .vc-seeone {
+  font-size: 0.7893333333rem;
+}
+
+main .vc-see .vc-direct span:last-child {
+  margin-left: 0.4266666667rem;
+  font-size: 0.5333333333rem;
+  font-weight: 700;
+}
+main .vc-see .vc-moneyok {
+  font-size: 0.5973333333rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0.256rem 0;
+}
+
+.green {
+  background-color: #09bb07 !important;
+}
+
+.apply {
+  display: inline-block;
+  height: 1.28rem;
+  width: 3.84rem;
+  font-size: 0.6613333333rem;
+  color: #fff;
+  background-color: #e64340;
+  border-radius: 0.192rem;
+  text-align: center;
+  line-height: 1.28rem;
+}
+.vip{
+  background-color: orange !important;
+}
+.bc{
+  display: inline-block;
+  width: 100%;
+  height: 0.2773333333rem;
+  background-color: #ebebeb;
+}
+.scheduleone{
+  height: 0.2773333333rem;
+  position: absolute;
+  left: 0;
+  top:50%;
+  background-color: green;
+  width: 0%;
+  margin-top: -0.13866666665rem;
+  transition: all 0.6s linear;
+}
+.scheduletwo{
+  height: 0.2773333333rem;
+  position: absolute;
+  left: 0;
+  top:50%;
+  background-color: green;
+  width: 100%;
+  margin-top: -0.13866666665rem;
+  transition: all 1s linear;
+}
+.schedulethree{
+  height: 0.2773333333rem;
+  position: absolute;
+  left: 0;
+  top:50%;
+  background-color: green;
+  width: 100%;
+  margin-top: -0.13866666665rem;
+  transition: all 1s linear;
+}
+main .vc-see .vc-direct{
+  display: flex;
+  align-items: center;
+  margin: 0.2rem 0;
+}
+.item{
+  display: flex;
+  align-items: center;
+  flex: 1;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+}
+/*# sourceMappingURL=myzone.css.map */

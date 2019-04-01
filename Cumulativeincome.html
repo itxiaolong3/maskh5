@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>累计收益</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/Cumulativeincome.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div id="shade" v-cloak v-show="flag"></div>
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>累计收益</p>
+    </header>
+    <main>
+        <div class="ci-top">
+            <p class="ci-allmoney">￥{{data.alltotal}}</p>
+            <div class="ci-topOption">
+                <span @click="flag=true">{{text}}</span>
+                <span><input type="date" v-model="today" class="date" @change="sendd"></span>
+            </div>
+            <div class="ci-bottom">
+                <div class="ci-left">
+                    <p>待结算</p>
+                    <p>￥{{data.nodealtotal}}</p>
+                </div>
+                <div class="ci-right">
+                    <p>已结算</p>
+                    <p>￥{{data.dealtotal}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="ci-main">
+            <a :href="'incomedetail.html?rid='+item.rid" class="ci-list" v-for="item in list">
+                <div class="ci-listl">
+                    <p>{{item.rbuyername}}</p>
+                    <p>{{item.raddtime}}</p>
+                </div>
+                <div class="ci-listm">
+                    <span>￥{{item.rmoney}}</span>
+                    <span v-if="item.rsettlement==1" class="ciYes">已结算</span>
+                    <span v-if="item.rsettlement==0">待结算</span>
+                </div>
+                <img src="./images/myteam_03.jpg" class="ci-rights" alt="">
+            </a>
+        </div>
+    </main>
+    <div class="show" v-cloak v-show="flag">
+        <p @click="send($event,0)">全部</p>
+        <p @click="send($event,1)">推广奖励</p>
+        <p @click="send($event,2)">销售奖励</p>
+        <p @click="send($event,3)">招商奖</p>
+        <p @click="send($event,4)">区域奖</p>
+        <p @click="send($event,4)">红包</p>
+    </div>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            flag :false,
+            type : 0,
+            today : '',
+            uid : 0,
+            text :'全部',
+            list :[],
+            data :{}
+        },
+        methods:{
+            send(event,stat){
+                this.type = stat;
+                this.flag = false;
+                this.text = event.target.textContent;
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=MyEarnTest&uid=${this.uid}&type=${this.type}`).then(res=>{
+                    this.list = res.data.data.list;
+                    layer.open({content: `共有${res.data.data.list.length}条数据`, skin: 'msg',time : 2});
+                })
+            },
+            sendd(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=MyEarnTest&uid=${this.uid}&dates=${this.today}`).then(res=>{
+                    this.list = res.data.data.list;
+                    layer.open({content: `共有${res.data.data.list.length}条数据`, skin: 'msg',time : 2});
+                })
+            }
+        },
+        created(){
+            var time = new Date();
+            var day = ("0" + time.getDate()).slice(-2);
+            var month = ("0" + (time.getMonth() + 1)).slice(-2);
+            this.today = time.getFullYear() + "-" + (month) + "-" + (day);
+            this.uid =localStorage.uid;
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=MyEarnTest&uid=${this.uid}&type=${this.type}`).then(res=>{
+                console.log(res);
+                this.list = res.data.data.list;
+                this.data = res.data.data;
+            })
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/register.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>注册</p>
+    </header>
+    <main>
+        <div class="login">
+            <p>注册</p>
+        </div>
+        <div class="input">
+            <div class="lg-list">
+                <div><img src="./images/login_07.jpg" alt=""></div>
+                <input type="number" v-model="tel" placeholder="请输入手机号">
+            </div>
+            <div class="lg-list">
+                <div><img src="./images/login_07.jpg" alt=""></div>
+                <input type="text" v-model="nickname" placeholder="请输入昵称">
+            </div>
+            <div class="lg-list">
+                <div><img src="./images/login_07.jpg" alt=""></div>
+                <input type="number" :readonly="flags" v-model="pid" placeholder="请输入推荐人">
+            </div>
+            <div class="lg-list">
+                <div><img src="./images/register_03.jpg" alt=""></div>
+                <input type="number" v-model="validateCode" placeholder="请输入验证码"><button type="button" :disabled="flag==1" @click="send($event)" class="rg-gain">获取验证码</button>
+            </div>
+
+            <div class="lg-list">
+                <div><img src="./images/login_11.jpg" alt=""></div>
+                <input type="password" v-model="password" placeholder="请输入密码">
+            </div>
+        </div>
+        <a href="#" @click.prevent="validate" class="go register">注册</a>
+        <a href="Login.html" class="go logins">已注册,去登陆</a>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            tel : '',
+            password : '',
+            validateCode : '',
+            pid : '',
+            flag: 2,
+            flags : false,
+            nickname :''
+        },
+        methods:{
+            validate(){
+                if(this.pid==''){
+                    layer.open({content: '推荐人不能为空', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (!(/^1(3|4|5|7|8|9)\d{9}$/.test(this.tel))) {
+                    layer.open({content: '手机号码有误，请重写', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (this.nickname=='') {
+                    layer.open({content: '昵称不能为空', skin: 'msg',time : 2});
+                    return false;
+                }
+                if(!/^[0-9]{6}$/.test(this.validateCode)){
+                    layer.open({content: '请输入正确的验证码', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/.test(this.password))) {
+                    layer.open({content: '请填写6位包含数字和字母的密码', skin: 'msg',time : 2});
+                    return false;
+                }
+                this.submit();
+            },
+            submit(){
+                localStorage.pid = this.pid;
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=AppReg&user_tel=${this.tel}&psw=${this.password}&code=${this.validateCode}&pid=${this.pid}&nickname=${this.nickname}&type=0`).then(res=>{
+                    console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code==1){
+                        setTimeout(()=>{
+                            window.location.href='Login.html';
+                        },1000)
+                    }
+                })
+            },
+            send(event){
+                if(this.pid==''){
+                    layer.open({content: '推荐人不能为空', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (!(/^1(3|4|5|7|8|9)\d{9}$/.test(this.tel))) {
+                    layer.open({content: '手机号码有误，请重写', skin: 'msg',time : 2});
+                    return false;
+                }
+                // console.log(event);
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Smscode&tel=${this.tel}`).then(res=>{
+                    // console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code==1){// 发送成功
+                        this.flag=1;
+                        var time = 60;
+                        var timer = setInterval(()=>{
+                            event.target.innerHTML =time+'s';
+                            time--;
+                            if(time==0){
+                                clearInterval(timer);
+                                event.target.innerHTML = '获取验证码';
+                                this.flag=2;
+                            }
+                        },1000)
+                    }
+                })
+            }
+        },
+        created(){
+            function getQueryString(name){
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]);return '';
+            }
+            this.pid=getQueryString("pid");
+            if(this.pid!=''){
+                this.flags= true;
+            }
+            localStorage.pid = this.pid;
+            // console.log(this.pid);
+        }
+    })
+</script>
+</body>
+</html>

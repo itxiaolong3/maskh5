@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>合伙人协议</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/agreement.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>合伙人协议</p>
+    </header>
+    <main>
+        <div v-html="text"></div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            text :''
+        },
+        methods:{
+
+        },
+        created(){
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Xieyi`).then(res=>{
+                console.log(res);
+                this.text= res.data.data;
+            })
+        }
+    })
+</script>
+</body>
+</html>

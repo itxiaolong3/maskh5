@@ -1,0 +1,137 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 1.6rem;
+}
+main .mt-top {
+  height: 2.1333333333rem;
+  background-color: #e9323c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main .mt-top input {
+  color: #717171;
+  font-size: 0.512rem;
+  height: 0.96rem;
+  border-radius: 1.0666666667rem 0 0 1.0666666667rem;
+  width: 80%;
+  text-indent: 0.5333333333rem;
+  outline: none;
+  border: 1px solid #a04d4b;
+  box-sizing: border-box;
+}
+main .mt-top button {
+  height: 0.96rem;
+  border: 0;
+  width: 1.7066666667rem;
+  border-radius: 0 1.0666666667rem 1.0666666667rem 0;
+  font-size: 0.512rem;
+  outline: none;
+  color: #fff;
+  background-color: #306a2d;
+}
+main .mt-option {
+  width: 80%;
+  margin: 0 10%;
+  display: flex;
+  height: 2.24rem;
+  justify-content: space-around;
+  text-align: center;
+}
+main .mt-option .mt-options {
+  font-size: 0.576rem;
+  color: #060405;
+}
+main .mt-option .mt-options p:first-child {
+  margin: 0.1706666667rem 0;
+}
+
+.mt-list .mt-lists {
+  width: 90%;
+  margin: 0.5333333333rem 5% 0 5%;
+  display: flex;
+  background-color: #fff;
+  padding: 0.2773333333rem;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 0.5333333333rem;
+  box-sizing: border-box;
+}
+.mt-list .mt-lists .mt-head {
+  width: 2.7733333333rem;
+  height: 2.7733333333rem;
+  border-radius: 50%;
+  margin-left: 0.1066666667rem;
+}
+.mt-list .mt-lists .mt-listsm {
+  flex: 1;
+  margin-left: 0.32rem;
+}
+.mt-list .mt-lists .mt-listsm p:first-child {
+  font-size: 0.5973333333rem;
+  color: #343434;
+}
+.mt-list .mt-lists .mt-listsm p:nth-of-type(2) {
+  font-size: 0.5546666667rem;
+  color: #909093;
+}
+.mt-list .mt-lists .mt-listsm p:nth-of-type(3) {
+  font-size: 0.5546666667rem;
+  color: #909093;
+}
+.mt-list .mt-lists .mt-listsm p:last-child {
+  height: 0.7466666667rem;
+  width: 2.7733333333rem;
+  border-radius: 0.1706666667rem;
+  color: #f5ffff;
+  font-size: 0.512rem;
+  background-color: #108cc2;
+  text-align: center;
+  line-height: 0.7466666667rem;
+}
+.mt-list .mt-lists .mt-right {
+  width: 0.6826666667rem;
+  height: 0.7466666667rem;
+  margin-right: 0.1066666667rem;
+}
+
+.active {
+  color: #bd4a67 !important;
+  border-bottom: 2px solid #973146;
+}
+
+/*# sourceMappingURL=MyTeam.css.map */

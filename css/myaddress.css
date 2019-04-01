@@ -1,0 +1,99 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #ffffff;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #000000;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  overflow: hidden;
+  margin-top: 1.8773333333rem;
+  margin-bottom: 3.2rem;
+}
+main .mr-list {
+  border-radius: 0.256rem;
+  background-color: #fff;
+  width: 96%;
+  margin: 0.4906666667rem 2% 0 2%;
+  padding: 0 3%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+main .mr-list .mr-top {
+  margin-top: 0.7466666667rem;
+  display: flex;
+  justify-content: space-between;
+}
+main .mr-list .mr-top p {
+  font-size: 0.576rem;
+  font-weight: 700;
+}
+main .mr-list .mr-middle {
+  font-size: 0.5333333333rem;
+  margin-top: 0.32rem;
+  margin-bottom: 0.64rem;
+}
+main .mr-list .mr-right {
+  font-size: 0.5546666667rem;
+  border-top: 1px solid #e7e7e7;
+  padding: 0.64rem 0;
+  text-align: right;
+}
+main .mr-list .mr-right a:first-child {
+  color: #151515;
+}
+main .mr-list .mr-right a:last-child {
+  color: #ec0622;
+  margin-right: 0.1706666667rem;
+  margin-left: 0.32rem;
+}
+
+footer {
+  height: 2.4533333333rem;
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  display: flex;
+  width: inherit;
+  align-items: center;
+}
+footer a {
+  height: 1.7066666667rem;
+  line-height: 1.7066666667rem;
+  text-align: center;
+  width: 90%;
+  margin: 0 5%;
+  font-size: 0.576rem;
+  background-color: #ed1731;
+  color: #fff;
+  border-radius: 0.1706666667rem;
+}
+
+/*# sourceMappingURL=myaddress.css.map */

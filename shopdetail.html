@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品详情</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/shopdetail.css">
+    <link rel="stylesheet" href="./extend/swiper/css/swiper.min.css">
+    <script src="./extend/swiper/js/swiper.min.js"></script>
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>商品详情</p>
+    </header>
+    <main>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!--<div class="swiper-slide"><img src="./images/detail_02.jpg" alt=""></div>-->
+                <div class="swiper-slide" v-for="item in good.imgarr"><img :src="item" alt=""></div>
+            </div>
+        </div>
+        <div class="sd-title">
+            <p>{{good.Title}}</p>
+            <p>{{good.Price}}</p>
+            <p><span>+{{good.integral}}积分</span><span class="sd-parameter">已售{{good.TotalQty}}</span><span>运费12.00</span></p>
+        </div>
+        <div class="sd-item"></div>
+        <div class="sd-count">
+            <span>数量</span><span class="sd-reduce sd-operation" @click="changenum(-1)">-</span><input class="sd-num" readonly v-model="nums"><span class="sd-add sd-operation" @click="changenum(1)">+</span>
+        </div>
+        <div class="sd-item"></div>
+        <div class="sd-detial">
+            <p class="sd-shopdetail sd-detailx">—— · 商品详情 · ——</p>
+            <div v-html="good.content"></div>
+            <p class="sd-shopbottom sd-detailx">---我也是有底线的---</p>
+        </div>
+    </main>
+    <footer>
+        <a href="cart.html" class="sd-cart sd-footeritem">
+            <img src="./images/shopdetail_03.jpg" alt="">
+            <p>购物车</p>
+        </a>
+        <a href="javascript:void(0)" class="sd-love sd-footeritem" @click.prevent="collect">
+            <div :class="{'love':good.iscollection}"></div>
+            <p>收藏</p>
+        </a>
+        <a href="#" class="sd-addcart sd-com" @click.prevent="addcart">加入购物车</a>
+        <a href="confirmOrder.html" class="sd-buy sd-com" @click.prevent="buy">立即购买</a>
+    </footer>
+</div>
+
+<script>
+    var vm =new Vue({
+        el : '#app',
+        data:{
+            gid : 0,
+            uid : 0,
+            good :{},
+            nums :1,
+            collection : './images/shopdetail_love.jpg',
+        },
+        methods:{
+            getGid(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Detailgood&gid=${this.gid}&uid=${this.uid}`).then(res=>{
+                    this.good = res.data.data;
+                    console.log(this.good);
+                })
+            },
+            changenum(num){
+                if(num>0){
+                    this.nums++;
+                }else{
+                    this.nums--;
+                    if(this.nums<1){
+                        this.nums =1;
+                    }
+                }
+            },
+            collect(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Collection&gid=${this.gid}&uid=${this.uid}`).then(res=>{
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.msg=="收藏成功"){
+                        this.$set(this.good,'iscollection',true);
+                    }else{
+                        this.$set(this.good,'iscollection',false);
+                    }
+                    console.log(res);
+                })
+            },
+            addcart(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Shopcar&gid=${this.gid}&uid=${this.uid}&num=${this.nums}&state=1`).then(res=>{
+                    console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                })
+            },
+            buy(){
+                localStorage.gid = this.gid;
+                localStorage.num = this.nums;
+                setTimeout(()=>{
+                    window.location.href='confirmOrder.html';
+                },200)
+            }
+        },
+        watch:{
+            good: function() {
+                this.$nextTick(function(){
+                    var mySwiper = new Swiper ('.swiper-container', {
+                        loop: true, // 循环模式选项
+                        autoplay : true
+                    })
+                })
+            }
+        },
+        created(){
+            function getQueryString(name){
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]);return '';
+            }
+            this.gid=getQueryString("gid");
+            this.uid = localStorage.uid;
+            this.getGid();
+        },
+    });
+</script>
+</body>
+</html>

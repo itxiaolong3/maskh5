@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>新增地址</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/addaddress.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="./js/v-distpicker.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>新增地址</p>
+    </header>
+    <main>
+        <p class="item">联系人</p>
+        <div class="list border">
+            <div class="lists">
+                <span>姓名</span><input type="text" v-model="name" placeholder="请填写收货人的姓名">
+            </div>
+        </div>
+        <div class="list">
+            <div class="lists">
+                <span>手机号码</span><input type="number" v-model="tel" placeholder="请填写收货人的手机号码">
+            </div>
+        </div>
+        <p class="item">收货地址</p>
+        <div class="list border">
+            <div class="lists">
+                <span>所在地区</span><span class="city" @click="toAddress">{{city}}</span>
+                <v-distpicker type="mobile" @selected='selected' v-show="addInp">
+                </v-distpicker>
+            </div>
+        </div>
+        <div class="list">
+            <div class="lists">
+                <span>详细地址</span><input type="text" v-model="detail" placeholder="请填写收货人的详细地址">
+            </div>
+        </div>
+        <div class="default">
+            <p>设置默认地址</p>
+            <input type="checkbox" value="1" v-model="isdefault" class="label btns">
+        </div>
+        <a href="#" @click="validate" class="submit">提交</a>
+    </main>
+</div>
+<script>
+    Vue.component('v-distpicker', VDistpicker);
+    new Vue({
+        el : '#app',
+        data :{
+            city:'请选择地址',
+            addInp :false,
+            tel : '',
+            name :'',
+            detail : '',
+            isdefault :0,
+            uid: 0
+        },
+        methods:{
+// 点击弹出三级联动
+            toAddress(){
+                this.mask = true;
+                this.addInp = true;
+            },
+            // 省市区三级联动
+            selected(data){
+                this.mask =false;
+                this.addInp = false;
+                this.city = data.province.value + ' ' + data.city.value +' ' + data.area.value
+
+            },
+            validate(){
+                if (!(/^[\u4e00-\u9fa5]{2,4}$/.test(this.name))) {
+                    layer.open({content: "姓名填写有误!", skin: 'msg',time : 2});
+                    return false;
+                }
+                if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.tel))) {
+                    layer.open({content: "手机号码有误，请重写", skin: 'msg',time : 2});
+                    return false;
+                }
+                if(this.city=='请选择地址'){
+                    layer.open({content: "请选择地址", skin: 'msg',time : 2});
+                    return false;
+                }
+                if(this.detail.length==0){
+                    layer.open({content: "详细地址不能为空", skin: 'msg',time : 2});
+                    return false;
+                }
+                this.submit();
+                console.log(this.isdefault);
+            },
+            submit(){
+                var x;
+                // x = this.isdefault==0? 0 : 1;
+                if(this.isdefault==0||this.isdefault==false){
+                    x = 0;
+                }else{
+                    x = 1;
+                }
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Addaddress&name=${this.name}&phone=${this.tel}&address=${this.city}&detailadd=${this.detail}&uid=${this.uid}&is_default=${x}`).then(res=>{
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code==1){
+                        setTimeout(()=>{
+                            window.location.href='myaddress.html'
+                        },1000)
+                    }
+                    // console.log(res);
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+        }
+    })
+</script>
+</body>
+</html>

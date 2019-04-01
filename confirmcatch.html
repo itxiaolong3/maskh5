@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>提现</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/confirmcatch.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div id="show" v-show="flag"></div>
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>提现</p>
+    </header>
+    <main>
+        <div class="top">
+            <img  class="head"  v-if="data.headerimg!='' &&  data.headerimg!=null" v-cloak :src="data.headerimg" alt="">
+            <img  class="head" v-if="data.headerimg=='' || data.headerimg==null" v-cloak src="./images/headerimg.jpg" alt="">
+            <p class="name">{{data.nickname}}</p>
+            <p class="type"><img src="https://csyueshi.com/icon/brankcard.png" alt="">银行卡</p>
+        </div>
+        <div class="select">
+            <input type="number" v-model="submitmoney" placeholder="请输入想要提现的额度"><button type="button" @click="all">全部提现</button>
+        </div>
+        <div class="yes">
+            <input type="checkbox" v-model="select" class="label btns"><span>我已经阅读并同意 <a href="agreement.html">《提现协议》</a></span>
+        </div>
+        <p class="tip">总余额{{limit}}元,可以提现金额<span>{{submitmoney}}</span>,到账金额<span>{{(submitmoney*0.99).toFixed(2)}}</span></p>
+        <a href="#" class="submit" @click.prevent="confirms">提现</a>
+        <div class="confirm" v-show="flag">
+            <p class="tips">提交申请</p>
+            <input type="password" v-model="paypsd" placeholder="请输入支付密码">
+            <div class="item">
+                <a href="#" @click.prevent="flag=false">取消</a>
+                <a href="#" @click="submit">提交</a>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            flag : false,
+            uid:0,
+            select:false,
+            submitmoney :'',
+            limit : 0,
+            id :0,
+            data:{},
+            paypsd :''
+        },
+        methods:{
+            all(){
+                this.submitmoney = this.limit;
+            },
+            confirms(){
+                // console.log(this.select);
+                if(this.select==false){
+                    layer.open({content: '您需要同意提现协议' , skin: 'msg',time : 2});
+                    return false;
+                }
+                if(this.submitmoney==''){
+                    layer.open({content: '提现金额不能为空' , skin: 'msg',time : 2});
+                    return false;
+                }
+                if(parseFloat(this.submitmoney)>this.limit){
+                    layer.open({content: '额度不足' , skin: 'msg',time : 2});
+                    return false;
+                }
+                this.flag =true;
+            },
+            submit(){
+                if(this.paypsd=='' || this.paypsd.length<6){
+                    layer.open({content: '支付密码输入有误' , skin: 'msg',time : 2});
+                    return false;
+                }
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Withdrawal&uid=${this.uid}&money=${this.submitmoney}&cid=${this.id}&paypsw=${this.paypsd}`).then(res=>{
+                    layer.open({content: res.data.msg , skin: 'msg',time : 2});
+                    console.log(res);
+                    if(res.data.code==1){
+                        setTimeout(()=>{
+                            window.location.href='asset.html';
+                        },1000)
+                    }else{
+                        this.flag = false;
+                    }
+                });
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Getwallet&uid=${this.uid}`).then(res=>{
+                this.limit =res.data.data.wallet;
+                console.log(this.limit);
+            });
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=GetCard&uid=${this.uid}`).then(res=>{
+                // console.log(res);
+                this.id = res.data.data.id;
+            });
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Gettream&uid=${this.uid}`).then(res=>{
+                this.data = res.data.data.userinfo;
+                console.log(this.data);
+            });
+        }
+    })
+</script>
+</body>
+</html>

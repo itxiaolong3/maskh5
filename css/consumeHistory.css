@@ -1,0 +1,86 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #000;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 1.6rem;
+}
+main .ch-option {
+  display: flex;
+  height: 1.92rem;
+  text-align: center;
+}
+main .ch-option a {
+  flex: 1;
+  color: #2a2a2a;
+  font-size: 0.5973333333rem;
+  line-height: 1.92rem;
+}
+main .ch-detail {
+  padding-top: 0.5333333333rem;
+}
+main .ch-detail .ch-list {
+  width: 90%;
+  margin: 0.5333333333rem 5% 0;
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffffff;
+  height: 2.3466666667rem;
+  padding: 0 0.4266666667rem;
+  box-sizing: border-box;
+  align-items: center;
+  border-radius: 0.5333333333rem;
+}
+main .ch-detail .ch-list .ch-left {
+  line-height: 0.8533333333rem;
+}
+main .ch-detail .ch-list .ch-left p:first-child {
+  font-size: 0.5546666667rem;
+  color: #767676;
+}
+main .ch-detail .ch-list .ch-left p:last-child {
+  font-size: 0.512rem;
+  color: #b0b0b0;
+}
+main .ch-detail .ch-list .money {
+  color: #b1304e;
+  font-size: 0.512rem;
+}
+
+.active {
+  color: #be556e !important;
+  border-bottom: 2px solid #9a2f47;
+}
+
+/*# sourceMappingURL=consumeHistory.css.map */

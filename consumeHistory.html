@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>消费记录</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/consumeHistory.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <link rel="stylesheet" href="./extend/animate.css">
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>消费记录</p>
+    </header>
+    <main>
+        <div class="ch-option">
+            <a href="#" class="ch-options" :class={'active':type==2} @click.prevent="tab(2)">全部</a>
+            <a href="#" class="ch-options" :class={'active':type==0} @click.prevent="tab(0)">收入</a>
+            <a href="#" class="ch-options" :class={'active':type==1} @click.prevent="tab(1)">支出</a>
+        </div>
+        <transition enter-active-class="animated bounceInLeft">
+            <div class="ch-detail" v-show="type==0">
+                <div class="ch-list" v-for="item in income">
+                    <div class="ch-left">
+                        <p>{{item.rcomment}}</p>
+                        <p>{{item.raddtime}}</p>
+                    </div>
+                    <p class="money">{{item.rmoney}}</p>
+                </div>
+            </div>
+        </transition>
+        <transition enter-active-class="animated bounceInLeft">
+            <div class="ch-detail" v-show="type==1">
+                <div class="ch-list" v-for="item in pay">
+                    <div class="ch-left">
+                        <p>{{item.rcomment}}</p>
+                        <p>{{item.raddtime}}</p>
+                    </div>
+                    <p class="money">{{item.rmoney}}</p>
+                </div>
+            </div>
+        </transition>
+        <transition enter-active-class="animated bounceInLeft">
+            <div class="ch-detail" v-show="type==2">
+                <div class="ch-list" v-for="(item,index) in all">
+                    <div class="ch-left">
+                        <p>{{item.rcomment}}</p>
+                        <p>{{item.raddtime}}</p>
+                    </div>
+                    <p class="money">{{item.rmoney}}</p>
+                </div>
+            </div>
+        </transition>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid:0,
+            type:2,
+            all :[],
+            income :[],
+            pay:[]
+        },
+        methods:{
+            tab(status){
+                this.type = status;
+                console.log(this.type);
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Getrecord&uid=${this.uid}&type=${this.type}`).then(res=>{
+                    // console.log(res);
+                    if(status==0){
+                        this.income = res.data.data;
+                    }else if(status==1){
+                        this.pay = res.data.data;
+                    }else{
+                        this.all = res.data.data;
+                    }
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Getrecord&uid=${this.uid}&type=${this.type}`).then(res=>{
+                this.all = res.data.data;
+                // console.log(this.all);
+            })
+        }
+    })
+</script>
+</body>
+</html>

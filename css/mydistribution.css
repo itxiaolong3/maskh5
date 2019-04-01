@@ -1,0 +1,112 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 4.2666666667rem;
+}
+main .db-top {
+  height: 4.2666666667rem;
+  background-color: #e9323c;
+  display: flex;
+  align-items: center;
+}
+main .db-top img {
+  height: 2.9866666667rem;
+  width: 2.9866666667rem;
+  border-radius: 50%;
+  margin: 0 0.4053333333rem 0 0.4906666667rem;
+}
+main .db-top .db-info p:first-child {
+  font-size: 0.5546666667rem;
+  color: #fff;
+}
+main .db-top .db-info p:last-child {
+  padding:0 0.2rem;
+  height: 0.9173333333rem;
+  color: #e61b26;
+  font-size: 0.5546666667rem;
+  background-color: #fff;
+  text-align: center;
+  line-height: 0.9173333333rem;
+  border-radius: 0.2133333333rem;
+  margin-top: 0.4266666667rem;
+}
+main .db-balance {
+  display: flex;
+  margin-top: 0.32rem;
+  justify-content: space-around;
+}
+main .db-balance .db-balances {
+  display: flex;
+  width: 7.4666666667rem;
+  height: 3.6266666667rem;
+  border-radius: 0.384rem;
+  background-color: white;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.0666666667rem;
+  font-size: 0.64rem;
+  color: #2e2e2e;
+  font-weight: 700;
+}
+main .db-list {
+  display: flex;
+  margin-top: 0.384rem;
+  justify-content: space-around;
+}
+main .db-list .db-lists {
+  display: flex;
+  flex-direction: column;
+  width: 4.9066666667rem;
+  height: 5.12rem;
+  border-radius: 0.4266666667rem;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.5333333333rem;
+  color: #151515;
+  font-weight: 700;
+}
+main .db-list .db-lists img {
+  height: 2.1333333333rem;
+  width: 2.1333333333rem;
+  border-radius: 50%;
+}
+main .db-list .db-lists p {
+  margin-top: 0.4266666667rem;
+}
+
+/*# sourceMappingURL=mydistribution.css.map */

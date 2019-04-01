@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>二维码</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/code.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./extend/jquery.min.js"></script>
+    <script src="./extend/qrcode.min.js"></script>
+    <script src="./js/axios.js"></script>
+</head>
+<body>
+<div class="container">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>二维码</p>
+    </header>
+    <main>
+        <div class="top">
+            <img src="./images/code_03.jpg" alt="" id="img" style="margin-top: 0.45rem;">
+            <div class="name" style="margin-top: 0.28rem;">
+                <p>我是<span id="name">Anonyme</span></p>
+                <p>自用省钱·分享赚钱</p>
+            </div>
+        </div>
+        <div id="code">
+        </div>
+    </main>
+</div>
+<script type="text/javascript">
+    var qrcode = new QRCode(document.getElementById("code"), {
+        width : 500,
+        height : 500
+    });
+    var uid = localStorage.uid;
+    var http = `http://www.2345.com?pid=${uid}`;
+    qrcode.makeCode(http);
+    axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=GetUserinfo&uid=${uid}`).then(res=>{
+        let name = res.data.data.nickname;
+        var nickname = document.getElementById('name');
+        nickname.innerHTML=name;
+        let img = res.data.data.headerimg;
+        let headimg = document.getElementById('img');
+        headimg.src = img;
+    })
+</script>
+</body>
+</html>

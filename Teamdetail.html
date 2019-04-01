@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>团队详情</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/Teamdetail.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>团队详情</p>
+    </header>
+    <main>
+        <div class="td-top">
+            <div class="td-team">
+                <img :src="data.headerimg" alt="" v-if="data.headerimg!='' && data.headerimg!=null">
+                <img src="./images/headerimg.jpg" alt="" v-if="data.headerimg==''  || data.headerimg==null">
+                <div class="td-name">
+                    <p>{{data.nickname}}</p>
+                    <p>推荐人:{{tjname}}</p>
+                </div>
+            </div>
+            <div class="td-sum">
+                <p><img :src="data.headerimg" alt=""  v-if="data.headerimg!='' && data.headerimg!=null"><img src="./images/headerimg.jpg" alt="" v-if="data.headerimg=='' || data.headerimg==null">消费总额</p>
+                <p>￥{{count}}</p>
+            </div>
+        </div>
+        <div class="td-detail">
+            <p class="td-info">基本信息</p>
+            <div class="td-list">
+                <p>姓名:</p>
+                <p v-if="data.name!=''">{{data.name}}</p>
+                <p v-if="data.name==''">未填</p>
+            </div>
+            <div class="td-list">
+                <p>性别:</p>
+                <p>{{data.sex}}</p>
+            </div>
+            <div class="td-list">
+                <p>微信号:</p>
+                <p v-if="data.wechat!=''">{{data.wechat}}</p>
+                <p v-if="data.wechat==''">未填</p>
+            </div>
+            <div class="td-list">
+                <p>QQ:</p>
+                <p v-if="data.qq!=''">{{data.qq}}</p>
+                <p v-if="data.qq==''">未填</p>
+            </div>
+            <div class="td-list">
+                <p>生日:</p>
+                <p v-if="data.birthday!=''">{{data.birthday}}</p>
+                <p v-if="data.birthday==''">未填</p>
+            </div>
+            <div class="td-list">
+                <p>地区:</p>
+                <p v-if="data.address!=''">{{data.address}}</p>
+                <p v-if="data.address==''">未填</p>
+            </div>
+            <div class="td-list">
+                <p>昵称:</p>
+                <p v-if="data.nickname!=''">{{data.nickname}}</p>
+                <p v-if="data.nickname==''">未填</p>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el :'#app',
+        data:{
+            uid : 0,
+            data:{},
+            count : 0,
+            tjname:''
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=teaminfodetail&uid=${this.uid}`).then(res=>{
+                    // console.log(res);
+                    this.count = res.data.data.consumption;
+                    this.data = res.data.data.userinfo;
+                })
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=teaminfodetail&uid=${this.uid}`).then(res=>{
+                    // console.log(res);
+                    this.count = res.data.data.consumption;
+                    this.data = res.data.data.userinfo;
+                })
+            }
+        },
+        created(){
+            function getQueryString(name){
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return decodeURI(r[2]); return null;
+            }
+            this.uid=getQueryString("uid");
+            this.tjname = getQueryString("tjname");
+            // console.log(this.tjname);
+            // console.log(this.uid);
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

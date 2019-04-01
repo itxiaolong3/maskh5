@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购物车</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/cart.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <header>
+            <p>购物车</p>
+        </header>
+        <main>
+            <div class="ct-tip">
+                购物车共 <span>{{good.length}}</span> 款商品
+            </div>
+            <div class="goodlist">
+                <div class="ct-item" v-for="(item,index) in good">
+                    <input type="checkbox" class="label btns" @change="judge" :value="index" v-model="check">
+                    <a :href="'shopdetail.html?gid='+item.gID" class="ct-go">
+                        <img :src="item.Itemcover"  v-cloak alt="" class="ct-img">
+                        <div class="ct-detail">
+                            <p class="ct-title" v-cloak>{{item.Title}}</p>
+                            <div class="ct-items">
+                                <p v-cloak>+{{item.integral}}积分,已售{{item.TotalQty}},运费{{item.freight}}</p>
+                                <p v-cloak>￥{{item.Price * item.num}}</p>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="ct-right">
+                        <p class="ct-del" @click="del(item.gID)">删除</p>
+                        <p class="ct-s"><span class="ct-reduce ct-operation" @click="changeNum(index,-1,item.gID)">-</span><input type="number" v-model="item.num" readonly class="num"><span class="ct-add ct-operation" @click="changeNum(index,+1,item.gID)">+</span></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="ct-option">
+            <div class="ct-optionl">
+                <input type="checkbox" v-model="isok" @click="selctAll" class="label btns"><span v-show="!isok">全选</span><span v-show="isok">全不选</span>
+            </div>
+            <div class="ct-optionr">
+                <span class="ct-sum">合计:</span><span class="ct-nums">￥{{totalMoney}}</span><a href="confirmOrder.html" class="ct-gos" @click.prevent="buy">结算</a>
+            </div>
+        </div>
+        <footer>
+            <a href="index.html" class="pr-footerlist">
+                <img src="./images/footer_03.jpg" alt="">
+                <p>首页</p>
+            </a>
+            <a href="classify.html" class="pr-footerlist">
+                <img src="./images/footer_05.jpg" alt="">
+                <p>分类</p>
+            </a>
+            <a href="cart.html" class="pr-footerlist">
+                <img src="./images/cart_03.jpg" alt="">
+                <p class="textColor">购物车</p>
+            </a>
+            <a href="personal.html" class="pr-footerlist">
+                <img src="./images/index_03.jpg" alt="">
+                <p>我的</p>
+            </a>
+        </footer>
+    </div>
+    <script>
+        new Vue({
+            el : '#app',
+            data:{
+                uid :0,
+                good :[],
+                totalMoney : '0.00',
+                check : [],
+                isok : false,
+            },
+            methods:{
+                getdata(){
+                    axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Getcart&uid=${this.uid}`).then(res=>{
+                        this.good = res.data.data;
+                        console.log(res);
+                        if(res.data.code==0){
+                            layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                        }
+                    })
+                },
+                changeNum(index,way,gid){
+                    if (way > 0) {
+                        this.good[index].num++;
+                        axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Shopcar&gid=${gid}&uid=${this.uid}&num=1&state=1`).then(res=>{
+                            console.log(res);
+                            layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                        })
+                    } else {
+                        this.good[index].num--;
+                        if (this.good[index].num < 1) {
+                            this.good[index].num = 1;
+                        }
+                        axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Shopcar&gid=${gid}&uid=${this.uid}&num=-1&state=1`).then(res=>{
+                            console.log(res);
+                            layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                        })
+                    }
+                    this.calcTotalPrice();
+                },
+                del(gid){
+                    axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Delshopcat&gid=${gid}&uid=${this.uid}`).then(res=>{
+                        console.log(res);
+                        layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                        setTimeout(()=>{
+                            this.getdata();
+                        },800)
+                    })
+                },
+                calcTotalPrice() {
+                    this.totalMoney = 0;
+                    // console.log(this.check);
+                    this.good.forEach((item,index)=>{
+                        // console.log(index)
+                        // console.log(this.check.includes(item[index]));
+                        if (this.check.includes(index)) {
+                            this.totalMoney += parseFloat(item.Price) * parseFloat(item.num) +parseFloat(item.freight)*parseFloat(item.num);
+                        }
+                    });
+                },
+                judge(){
+                    if(this.good.length == this.check.length){
+                        this.isok = true;
+                    }else{
+                        this.isok = false;
+                    }
+                    this.calcTotalPrice();
+                },
+                selctAll(){
+                    if(!this.isok){   //全选
+                        this.good.forEach((item,index)=>{
+                            this.check.push(index);
+                        })
+                    }else{   //全不选
+                        this.check  = [];
+                    }
+                    this.calcTotalPrice();
+                },
+                buy(){
+                    if(this.check.length==1){
+                        var index = this.check[0];
+                        var cartnum = this.good[index].num;
+                        var Gids = this.good[index].gID;
+                        localStorage.gid = Gids;
+                        localStorage.num = cartnum;
+                        setTimeout(()=>{
+                            window.location.href='confirmOrder.html';
+                        },200)
+                    }else if(this.check.length==0){
+                        layer.open({content: '您还未选择商品', skin: 'msg',time : 2});
+                    }else{
+                        layer.open({content: '目前仅支持单商品购买', skin: 'msg',time : 2});
+                    }
+                }
+            },
+            created(){
+                this.uid = localStorage.uid;
+                this.getdata();
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: white;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #000;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+}
+main .cf-search {
+  background-color: white;
+  padding-bottom: 0.32rem;
+  width: 96%;
+  margin: 0 2%;
+  height: 1.6rem;
+  display: flex;
+}
+main .cf-search input {
+  height: 100%;
+  line-height: 1.6rem;
+  font-size: 0.7253333333rem;
+  color: #999999;
+  border: 0;
+  outline: none;
+  flex: 1;
+  background: url("../images/search_03.jpg") no-repeat 0.1706666667rem center #f5f5f5;
+  text-indent: 1.1093333333rem;
+  border-radius: 0.2133333333rem;
+}
+main .cf-search button {
+  height: 100%;
+  width: 2.1333333333rem;
+  border: 0;
+  font-size: 0.5333333333rem;
+  border-radius: 0.2133333333rem;
+  outline: none;
+}
+main .list {
+  width: 90%;
+  margin: 0 5%;
+}
+main .list .lists {
+  display: flex;
+  padding: 0.4266666667rem;
+  border-bottom: 1px solid #eaeaea;
+}
+main .list .lists:last-child {
+  border: 0;
+}
+main .list .lists .left {
+  width: 4.9066666667rem;
+}
+main .list .lists .left img {
+  width: 4.6933333333rem;
+  height: 4.6933333333rem;
+}
+main .list .lists .right {
+  margin-left: 1.0666666667rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+main .list .lists .right p:first-child {
+  font-size: 0.512rem;
+  color: #373737;
+}
+main .list .lists .right p:nth-of-type(2) span {
+  display: inline-block;
+  padding: 0 0.1066666667rem;
+  height: 0.64rem;
+  border-radius: 0.064rem;
+  border: 2px solid #ee2941;
+  font-size: 0.3413333333rem;
+  color: #ec0520;
+  text-align: center;
+  line-height: 0.64rem;
+  margin-right: 0.4266666667rem;
+}
+main .list .lists .right p:last-child {
+  font-size: 0.4693333333rem;
+  color: #ee2038;
+  font-weight: 700;
+}
+main .list .lists .right p:last-child span {
+  font-size: 0.4266666667rem;
+  text-decoration: line-through;
+  color: #959595;
+}
+
+/*# sourceMappingURL=serachshop.css.map */

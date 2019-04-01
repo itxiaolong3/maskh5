@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的订单</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/myorder.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <link rel="stylesheet" href="./extend/animate.css">
+    <style>
+        .animated {
+            animation-duration: 0.7s;
+        }
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>我的订单</p>
+    </header>
+    <main>
+        <div class="option">
+            <a href="#" @click.prevent="change(0)" :class="{'active':status==0}">全部</a>
+            <a href="#" @click.prevent="change(1)" :class="{'active':status==1}">待付款</a>
+            <a href="#" @click.prevent="change(2)" :class="{'active':status==2}">待发货</a>
+            <a href="#" @click.prevent="change(3)" :class="{'active':status==3}">待收货</a>
+            <a href="#" @click.prevent="change(4)" :class="{'active':status==4}">已完成</a>
+        </div>
+        <p class="no" v-show="empty">----空空如也----</p>
+        <!--全部-->
+        <transition enter-active-class="animated bounceInLeft">
+            <div class="shop" v-show="status==0">
+                <div class="list" v-for="item in goodlist">
+                    <div class="top">
+                        <p v-cloak>订单号:{{item.order_num}}</p>
+                        <p v-if="item.state=='1'" v-cloak>待付款</p>
+                        <p v-if="item.state=='2'" v-cloak>待发货</p>
+                        <p v-if="item.state=='3'" v-cloak>已发货</p>
+                        <p v-if="item.state=='4'" v-cloak>交易完成</p>
+                        <p v-if="item.state=='5'" v-cloak>已取消</p>
+                        <p v-if="item.state=='6'" v-cloak>申请退款</p>
+                        <p v-if="item.state=='7'" v-cloak>同意退款</p>
+                        <p v-if="item.state=='8'" v-cloak>拒绝退款</p>
+                    </div>
+                    <a :href="'orderdetail.html?orderid='+item.id" class="middle">
+                        <img :src="item.goodlist[0].img" alt=""  v-cloak>
+                        <div class="shoptext">
+                            <p  v-cloak class="shoptitle" v-text="item.goodlist[0].name"></p>
+                            <div class="shopdetail">
+                                <p class="shopadd"  v-cloak>+{{item.goodlist[0].integral}}积分,已售{{item.goodlist[0].TotalQty}}</p>
+                                <div class="money">
+                                    <p v-cloak>￥{{item.goodlist[0].money}}</p>
+                                    <p v-cloak>X{{item.goodlist[0].number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="bottom">
+                        <p class="bottoml" v-cloak>共{{item.goodlist[0].number}}件商品  小计 <span>￥{{goodlist[0].money}}</span></p>
+                        <a href="selectpay.html" v-if="item.state=='1'" @click.prevent="gopay(goodlist[0].money,item.id)">去支付</a>
+                        <div v-if="item.state=='2'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="confirmOrder.html">确认收货</a></div>
+                        <div v-if="item.state=='3'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="confirmOrder.html">确认收货</a></div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <!--待付款-->
+        <transition enter-active-class="animated bounceInLeft">
+            <div class="shop" v-show="status==1">
+                <div class="list" v-for="item in goodlist">
+                    <div class="top">
+                        <p v-cloak>订单号:{{item.order_num}}</p>
+                        <p v-if="item.state=='1'" v-cloak>待付款</p>
+                        <p v-if="item.state=='2'" v-cloak>待发货</p>
+                        <p v-if="item.state=='3'" v-cloak>已发货</p>
+                        <p v-if="item.state=='4'" v-cloak>交易完成</p>
+                        <p v-if="item.state=='5'" v-cloak>已取消</p>
+                        <p v-if="item.state=='6'" v-cloak>申请退款</p>
+                        <p v-if="item.state=='7'" v-cloak>同意退款</p>
+                        <p v-if="item.state=='8'" v-cloak>拒绝退款</p>
+                    </div>
+                    <a :href="'orderdetail.html?orderid='+item.id" class="middle">
+                        <img :src="item.goodlist[0].img" alt=""  v-cloak>
+                        <div class="shoptext">
+                            <p  v-cloak class="shoptitle" v-text="item.goodlist[0].name"></p>
+                            <div class="shopdetail">
+                                <p class="shopadd"  v-cloak>+{{item.goodlist[0].integral}}积分,已售{{item.goodlist[0].TotalQty}}</p>
+                                <div class="money">
+                                    <p v-cloak>￥{{item.goodlist[0].money}}</p>
+                                    <p v-cloak>X{{item.goodlist[0].number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="bottom">
+                        <p class="bottoml" v-cloak>共{{item.goodlist[0].number}}件商品  小计 <span>￥{{goodlist[0].money}}</span></p>
+                        <a href="selectpay.html" v-if="item.state=='1'" @click.prevent="gopay(goodlist[0].money,item.id)">去支付</a>
+                        <div v-if="item.state=='2'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="confirmOrder.html">确认收货</a></div>
+                        <div v-if="item.state=='3'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="confirmOrder.html">确认收货</a></div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <!--代发货-->
+        <transition enter-active-class="animated bounceInLeft">
+            <div class="shop" v-show="status==2">
+                <div class="list" v-for="item in goodlist">
+                    <div class="top">
+                        <p v-cloak>订单号:{{item.order_num}}</p>
+                        <p v-if="item.state=='1'" v-cloak>待付款</p>
+                        <p v-if="item.state=='2'" v-cloak>待发货</p>
+                        <p v-if="item.state=='3'" v-cloak>已发货</p>
+                        <p v-if="item.state=='4'" v-cloak>交易完成</p>
+                        <p v-if="item.state=='5'" v-cloak>已取消</p>
+                        <p v-if="item.state=='6'" v-cloak>申请退款</p>
+                        <p v-if="item.state=='7'" v-cloak>同意退款</p>
+                        <p v-if="item.state=='8'" v-cloak>拒绝退款</p>
+                    </div>
+                    <a :href="'orderdetail.html?orderid='+item.id" class="middle">
+                        <img :src="item.goodlist[0].img" alt=""  v-cloak>
+                        <div class="shoptext">
+                            <p  v-cloak class="shoptitle" v-text="item.goodlist[0].name"></p>
+                            <div class="shopdetail">
+                                <p class="shopadd"  v-cloak>+{{item.goodlist[0].integral}}积分,已售{{item.goodlist[0].TotalQty}}</p>
+                                <div class="money">
+                                    <p v-cloak>￥{{item.goodlist[0].money}}</p>
+                                    <p v-cloak>X{{item.goodlist[0].number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="bottom">
+                        <p class="bottoml" v-cloak>共{{item.goodlist[0].number}}件商品  小计 <span>￥{{goodlist[0].money}}</span></p>
+                        <a href="selectpay.html" v-if="item.state=='1'" @click.prevent="gopay(goodlist[0].money,item.id)">去支付</a>
+                        <div v-if="item.state=='2'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="confirmOrder.html">确认收货</a></div>
+                        <div v-if="item.state=='3'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="confirmOrder.html">确认收货</a></div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <!--待收货-->
+        <transition enter-active-class="animated bounceInLeft">
+            <div class="shop"  v-show="status==3">
+                <div class="list" v-for="item in goodlist">
+                    <div class="top">
+                        <p v-cloak>订单号:{{item.order_num}}</p>
+                        <p v-if="item.state=='1'" v-cloak>待付款</p>
+                        <p v-if="item.state=='2'" v-cloak>待发货</p>
+                        <p v-if="item.state=='3'" v-cloak>已发货</p>
+                        <p v-if="item.state=='4'" v-cloak>交易完成</p>
+                        <p v-if="item.state=='5'" v-cloak>已取消</p>
+                        <p v-if="item.state=='6'" v-cloak>申请退款</p>
+                        <p v-if="item.state=='7'" v-cloak>同意退款</p>
+                        <p v-if="item.state=='8'" v-cloak>拒绝退款</p>
+                    </div>
+                    <a :href="'orderdetail.html?orderid='+item.id" class="middle">
+                        <img :src="item.goodlist[0].img" alt=""  v-cloak>
+                        <div class="shoptext">
+                            <p  v-cloak class="shoptitle" v-text="item.goodlist[0].name"></p>
+                            <div class="shopdetail">
+                                <p class="shopadd"  v-cloak>+{{item.goodlist[0].integral}}积分,已售{{item.goodlist[0].TotalQty}}</p>
+                                <div class="money">
+                                    <p v-cloak>￥{{item.goodlist[0].money}}</p>
+                                    <p v-cloak>X{{item.goodlist[0].number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="bottom">
+                        <p class="bottoml" v-cloak>共{{item.goodlist[0].number}}件商品  小计 <span>￥{{goodlist[0].money}}</span></p>
+                        <a href="selectpay.html" v-if="item.state=='1'" @click.prevent="gopay(goodlist[0].money,item.id)">去支付</a>
+                        <div v-if="item.state=='2'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="confirmOrder.html">确认收货</a></div>
+                        <div v-if="item.state=='3'"><a :href="'applyAfter.html?orderid='+item.id"  style="color :#333;border-color:#333;">申请售后</a><a href="confirmOrder.html">确认收货</a></div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <!--已完成-->
+        <transition enter-active-class="animated bounceInLeft">
+            <div class="shop"  v-show="status==4">
+                <div class="list" v-for="item in goodlist">
+                    <div class="top">
+                        <p v-cloak>订单号:{{item.order_num}}</p>
+                        <p v-if="item.state=='1'" v-cloak>待付款</p>
+                        <p v-if="item.state=='2'" v-cloak>待发货</p>
+                        <p v-if="item.state=='3'" v-cloak>已发货</p>
+                        <p v-if="item.state=='4'" v-cloak>交易完成</p>
+                        <p v-if="item.state=='5'" v-cloak>已取消</p>
+                        <p v-if="item.state=='6'" v-cloak>申请退款</p>
+                        <p v-if="item.state=='7'" v-cloak>同意退款</p>
+                        <p v-if="item.state=='8'" v-cloak>拒绝退款</p>
+                    </div>
+                    <a :href="'orderdetail.html?orderid='+item.id" class="middle">
+                        <img :src="item.goodlist[0].img" alt=""  v-cloak>
+                        <div class="shoptext">
+                            <p  v-cloak class="shoptitle" v-text="item.goodlist[0].name"></p>
+                            <div class="shopdetail">
+                                <p class="shopadd"  v-cloak>+{{item.goodlist[0].integral}}积分,已售{{item.goodlist[0].TotalQty}}</p>
+                                <div class="money">
+                                    <p v-cloak>￥{{item.goodlist[0].money}}</p>
+                                    <p v-cloak>X{{item.goodlist[0].number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="bottom">
+                        <p class="bottoml" v-cloak>共{{item.goodlist[0].number}}件商品  小计 <span>￥{{item.goodlist[0].number*item.goodlist[0].money}}</span></p>
+                        <a href="selectpay.html" v-if="item.state=='1'" @click.prevent="gopay(goodlist[0].money,item.id)">去支付</a>
+                        <div v-if="item.state=='2'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="applyAfter.html">确认收货</a></div>
+                        <div v-if="item.state=='3'"><a  :href="'applyAfter.html?orderid='+item.id" style="color :#333;border-color:#333;">申请售后</a><a href="applyAfter.html">确认收货</a></div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            status :0,
+            goodlist: [],
+            empty : false
+        },
+        methods:{
+            change(state){
+                this.status = state;
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=GetOrderlist&state=${this.status}&uid=${this.uid}`).then(res=>{
+                    // console.log(res);
+                    this.goodlist = res.data.data;
+                    // console.log(this.goodlist);
+                    if(res.data.data.length==0){
+                        layer.open({content: '暂无订单', skin: 'msg',time : 2});
+                        this.empty = true;
+                    }else{
+                        this.empty = false;
+                    }
+                    // layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                })
+            },
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=GetOrderlist&state=${this.status}&uid=${this.uid}`).then(res=>{
+                    console.log(res);
+                    this.goodlist = res.data.data;
+                    // console.log(this.goodlist);
+                    if(res.data.data.length==0){
+                        layer.open({content: '暂无订单', skin: 'msg',time : 2});
+                        this.empty = true;
+                    }else{
+                        this.empty = false;
+                    }
+                    // layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                })
+            },
+            gopay(money,id){
+                console.log(money, id);
+                localStorage.money = money;
+                localStorage.orderid = id;
+                setTimeout(()=>{
+                    window.location.href = 'selectpay.html'
+                },200)
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            function getQueryString(name){
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]);return '';
+            }
+            var st = getQueryString("status");
+            if(st != ''){
+                this.status = st;
+            }
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

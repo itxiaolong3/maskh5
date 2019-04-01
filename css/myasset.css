@@ -1,0 +1,108 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 3.2rem;
+}
+main .as-top {
+  height: 8.5333333333rem;
+  background-color: #e9323c;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+main .as-top .as-topone {
+  width: 2.6666666667rem;
+  border-radius: 0.5333333333rem;
+  background-color: #fff;
+  font-size: 0.5546666667rem;
+  height: 1.0666666667rem;
+  text-align: center;
+  line-height: 1.0666666667rem;
+  color: #141414;
+}
+main .as-top .as-topmiddle {
+  text-align: center;
+  color: #fff;
+}
+main .as-top .as-topmiddle img {
+  width: 1.3866666667rem;
+  height: 1.7066666667rem;
+}
+main .as-top .as-topmiddle p:nth-of-type(1) {
+  font-size: 0.8533333333rem;
+  margin: 0.256rem 0;
+}
+main .as-top .as-topmiddle p:last-child {
+  font-size: 0.6186666667rem;
+}
+main .as-function {
+  color: #171717;
+  font-size: 0.64rem;
+  height: 1.7066666667rem;
+  line-height: 1.7066666667rem;
+  margin-left: 0.4266666667rem;
+}
+main .as-list {
+  display: flex;
+}
+main .as-list img {
+  width: 1.28rem;
+  height: 1.28rem;
+}
+main .as-list .as-lists {
+  height: 2.9866666667rem;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 1px solid #e1e1e1;
+  background-color: #f6f6f6;
+  align-items: center;
+}
+main .as-list .as-lists .as-text {
+  margin-left: 0.2133333333rem;
+  text-align: center;
+}
+main .as-list .as-lists .as-text p:first-child {
+  font-size: 0.704rem;
+  color: #0f0f0f;
+}
+main .as-list .as-lists .as-text p:last-child {
+  font-size: 0.5546666667rem;
+  color: #5d5d5d;
+}
+
+/*# sourceMappingURL=myasset.css.map */

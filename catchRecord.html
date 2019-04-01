@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>提现记录</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/catchRecord.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>提现记录</p>
+    </header>
+    <main>
+        <div class="info">
+            <div class="list" v-for="item in data">
+                <div class="box">
+                    <img src="./images/catch_03.jpg" alt="">
+                    <div class="middle">
+                        <p class="money">￥{{item.rmoney}}</p>
+                        <p class="dates">{{item.raddtime}}</p>
+                    </div>
+                </div>
+                <p class="right yes" v-if="item.rsettlement==1">已通过</p>
+                <p class="right" v-if="item.rsettlement==0">未通过</p>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data :{
+            uid :0,
+            today :'',
+            data :[]
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Getwithdrawal&uid=${this.uid}&dates=${this.today}`).then(res=>{
+                    console.log(res);
+                    this.data = res.data.data;
+                    if(res.data.data.length==0){
+                        layer.open({content: '暂无提现记录', skin: 'msg',time : 2});
+                    }
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            var time = new Date();
+            var day = ("0" + time.getDate()).slice(-2);
+            var month = ("0" + (time.getMonth() + 1)).slice(-2);
+            this.today = time.getFullYear() + "-" + (month) + "-" + (day);
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

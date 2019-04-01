@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>收益详情</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/incomedeatil.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>收益详情</p>
+    </header>
+    <main>
+        <div class="td-top">
+            <div class="td-sum">
+                <p><img src="https://csyueshi.com/icon/teammoneyicon.png" alt="">佣金金额</p>
+                <p v-cloak>￥{{list.rmoney}}</p>
+            </div>
+        </div>
+        <div class="td-detail">
+            <p class="td-info">详情</p>
+            <div class="td-list">
+                <p>类型:</p>
+                <p v-cloak>{{list.typestr}}</p>
+            </div>
+            <div class="td-list">
+                <p>时间:</p>
+                <p v-cloak>{{list.raddtime}}</p>
+            </div>
+            <div class="td-list">
+                <p>交易订单:</p>
+                <p v-cloak>{{list.rordernumber}}</p>
+            </div>
+            <div class="td-list">
+                <p>买家:</p>
+                <p v-cloak>{{list.rbuyername}}</p>
+            </div>
+            <div class="td-list">
+                <p>状态:</p>
+                <p v-if="list.rsettlement==0" v-cloak>待结算</p>
+                <p v-if="list.rsettlement==1" v-cloak>已结算</p>
+            </div>
+            <div class="td-list">
+                <p>备注:</p>
+                <p v-cloak>{{list.rcomment}}</p>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            rid :0,
+            list :{}
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Earndetail&rid=${this.rid}`).then(res=>{
+                    console.log(res);
+                    this.list = res.data.data;
+                })
+            }
+        },
+        created(){
+            function getQueryString(name){
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]);return '';
+            }
+            this.rid=getQueryString("rid");
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: white;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+main{
+  margin-top: 1.8773333333rem;
+}
+main .item {
+  height: 1.7066666667rem;
+  line-height: 1.7066666667rem;
+  background-color: #f6f6f6;
+  font-size: 0.5546666667rem;
+  color: #000000;
+  padding-left: 0.64rem;
+}
+main .option {
+  height: 2.4533333333rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.64rem;
+  background-color: #fff;
+}
+main .option .box {
+  display: flex;
+  align-items: center;
+}
+main .option .box img {
+  width: 0.96rem;
+  height: 0.64rem;
+}
+main .option .box .info {
+  margin-left: 0.2773333333rem;
+}
+main .option .box .info p:first-child {
+  font-size: 0.5546666667rem;
+  color: #000000;
+}
+main .option .box .info p:last-child {
+  color: #505050;
+  font-size: 0.5333333333rem;
+}
+main .option .right {
+  display: flex;
+  align-items: center;
+}
+main .option .right img {
+  width: 0.2986666667rem;
+  height: 0.512rem;
+  margin-left: 0.2133333333rem;
+}
+main .option .right span {
+  font-size: 0.512rem;
+  color: #484848;
+}
+
+/*# sourceMappingURL=accountmage.css.map */

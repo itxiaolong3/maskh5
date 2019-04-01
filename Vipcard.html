@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>会员卡</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/Vipcard.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>会员卡</p>
+    </header>
+    <main>
+        <div class="linear"></div>
+        <div class="card">
+            <img src="https://csyueshi.com/icon/vip.jpg" alt="">
+            <p>使用时请出示此卡</p>
+        </div>
+        <div class="item">
+            <div class="list">
+                <p>消费总额</p>
+                <p>{{data.totalmoney}}元</p>
+            </div>
+            <div class="list">
+                <p>剩余积分</p>
+                <p>{{data.shengjifeng}}分</p>
+            </div>
+            <div class="list">
+                <p>剩余金额</p>
+                <p>{{data.wallet}}元</p>
+            </div>
+        </div>
+        <div class="go">
+            <a href="signIn.html">点击这里签到赚积分</a>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            data:{}
+        },
+        methods:{
+
+        },
+        created(){
+            this.uid = localStorage.uid;
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Vipcardinfo&uid=${this.uid}`).then(res=>{
+                console.log(res);
+                this.data = res.data.data;
+            });
+        }
+    })
+</script>
+</body>
+</html>

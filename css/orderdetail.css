@@ -1,0 +1,189 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f6f6f6;
+}
+
+body {
+  background-color: #f6f6f6;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 3.2rem;
+}
+main .compony {
+  height: 3.2rem;
+  background-color: #e9323c;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 0.576rem;
+  padding-left: 0.64rem;
+}
+main .compony p:first-child {
+  color: #fff !important;
+}
+main .compony p:last-child {
+  color: #bcd7e8;
+  margin-top: 0.1066666667rem;
+}
+main .address {
+  height: 2.7733333333rem;
+  background-color: #fff;
+  margin: 0.4266666667rem 0;
+  display: flex;
+  align-items: center;
+}
+main .address img {
+  width: 0.9173333333rem;
+  height: 0.9173333333rem;
+  margin-left: 0.64rem;
+  margin-right: 0.2133333333rem;
+}
+main .address .addressx {
+  line-height: 0.8533333333rem;
+  font-size: 0.576rem;
+  color: #000000;
+}
+main .shop {
+  display: flex;
+  height: 4.48rem;
+  background-color: #fff;
+  padding: 0.4266666667rem 0.64rem;
+  box-sizing: border-box;
+  align-items: center;
+}
+main .shop img {
+  width: 3.3706666667rem;
+  height: 3.3706666667rem;
+  margin-right: 0.64rem;
+}
+main .shop .shoptext {
+  height: 100%;
+  flex: 1;
+  font-size: 0.5546666667rem;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+main .shop .shoptext .shopdet .shopadd {
+  color: #8e8e8e;
+  font-size: 0.4906666667rem;
+  margin-bottom: 0.1066666667rem;
+}
+main .shop .shoptext .shopdet .shopcount {
+  display: flex;
+  justify-content: space-between;
+}
+main .shop .shoptext .shopdet .shopcount p:first-child {
+  color: #c42a46;
+  font-size: 0.576rem;
+  font-weight: 700;
+}
+main .shop .shoptext .shopdet .shopcount p:last-child {
+  font-size: 0.512rem;
+  color: #8c8c8c;
+}
+main .money {
+  margin-top: 0.4266666667rem;
+  height: 1.8133333333rem;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.64rem;
+  font-size: 0.5546666667rem;
+  color: #000;
+  align-items: center;
+}
+main .turemoney {
+  height: 1.8133333333rem;
+  background-color: #f44336;
+  justify-content: space-between;
+  padding: 0 0.64rem;
+  font-size: 0.5546666667rem;
+  color: #fff;
+  align-items: center;
+  position: relative;
+  line-height: 1.8133333333rem;
+}
+main .turemoney p:first-child {
+  float: left;
+}
+main .turemoney p:last-child {
+  float: right;
+}
+main .turemoney::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border: 0.4266666667rem solid #f44538;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  position: absolute;
+  right: 0.64rem;
+  top: -0.7466666667rem;
+}
+main .order {
+  margin-top: 0.4266666667rem;
+  background-color: #fff;
+  font-size: 0.5546666667rem;
+  color: #1a1a1a;
+  padding: 0.5333333333rem 0.64rem 0.2133333333rem;
+}
+main .order .item {
+  height: 1.0666666667rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer {
+  height: 1.7066666667rem;
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+footer a {
+  display: block;
+  height: 1.28rem;
+  width: 3.2rem;
+  color: #fff;
+  background-color: #007aff;
+  font-size: 0.5546666667rem;
+  text-align: center;
+  line-height: 1.28rem;
+  border-radius: 0.192rem;
+  margin-right: 0.64rem;
+}
+
+/*# sourceMappingURL=orderdetail.css.map */

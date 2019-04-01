@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>账号绑定</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/accountbind.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>账号绑定</p>
+    </header>
+    <main>
+        <div class="box">
+            <div class="list">
+                <span>真实姓名</span><input type="text" v-model="data.name" placeholder="请输入您的真实姓名">
+            </div>
+            <div class="list">
+                <span>手机号码</span><input type="number" v-model="data.phone" placeholder="请输入您的手机号码">
+            </div>
+            <div class="list">
+                <span>开户行</span><input type="text" v-model="data.openbranch" placeholder="请输入您的开户行">
+            </div>
+            <div class="list">
+                <span>所属支行</span><input type="text" v-model="data.branch" placeholder="请输入您的所属支行">
+            </div>
+            <div class="list">
+                <span>银行卡号</span><input type="number" v-model="data.cardnumber" placeholder="请输入您的银行卡号">
+            </div>
+        </div>
+        <a href="#" class="submit" @click.prevent="validate">提交</a>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            data:{
+                name : '',
+                phone :'',
+                branch :'',
+                openbranch :'',
+                cardnumber :''
+            },
+            uid : '',
+            flag :0
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=GetCard&uid=${this.uid}`).then(res=>{
+                    // console.log(res);
+                    if(res.data.data!=false){
+                        this.data = res.data.data;
+                        this.flag = 1;
+                        console.log(this.data);
+                    }
+                })
+            },
+            validate() {
+                if (!(/^[\u4e00-\u9fa5]{2,4}$/.test(this.data.name))) {
+                    layer.open({content: '姓名填写有误!', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.data.phone))) {
+                    layer.open({content: '手机号码有误，请重写', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (this.data.openbranch=='') {
+                    layer.open({content: '开户行不能为空!', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (this.data.branch=='') {
+                    layer.open({content: '所属支行不能为空!', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (!(/^[0-9]{16,19}$/.test(this.data.cardnumber))) {
+                    layer.open({content: '请正确输入银行卡号!', skin: 'msg',time : 2});
+                    return false;
+                }
+                this.submit();
+            },
+            submit(){
+                if(this.flag==0){    //添加
+                    axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Card&uid=${this.uid}&name=${this.data.name}&phone=${this.data.phone}&openbranch=${this.data.openbranch}&branch=${this.data.branch}&cardnumber=${this.data.cardnumber}`).then(res=>{
+                        console.log(res);
+                        layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                        if(res.data.code==1){
+                            setTimeout(()=>{
+                                window.location.href = 'catch.html'
+                            },1000)
+                        }
+                    })
+                }else{   //修改
+                    // console.log(this.data.id);
+                    axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Card&uid=${this.uid}&name=${this.data.name}&phone=${this.data.phone}&openbranch=${this.data.openbranch}&branch=${this.data.branch}&cardnumber=${this.data.cardnumber}&id=${this.data.id}`).then(res=>{
+                        console.log(res);
+                        layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                        if(res.data.code==1){
+                            setTimeout(()=>{
+                                window.location.href = 'catch.html'
+                            },1000)
+                        }
+                    })
+                }
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

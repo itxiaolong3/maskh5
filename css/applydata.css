@@ -1,0 +1,206 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  background-color: #fff;
+}
+main .input .list {
+  height: 1.7066666667rem;
+  display: flex;
+  align-items: center;
+}
+main .input .list span {
+  font-size: 0.6826666667rem;
+  margin-left: 0.5973333333rem;
+}
+main .input .list input {
+  height: 90%;
+  font-size: 0.64rem;
+  color: #7a7a7a;
+  border: 0;
+  outline: none;
+  margin-left: 0.2773333333rem;
+}
+
+.btns {
+  width: 0.8533333333rem;
+  outline: none;
+  height: 0.8533333333rem !important;
+  border-radius: 0.1066666667rem;
+  background-color: #ffffff;
+  border: solid 1px #cdcfce !important;
+  font-size: 0.2133333333rem;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  cursor: default;
+  -webkit-appearance: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-transition: background-color ease 0.1s;
+  transition: background-color ease 0.1s;
+  margin-left: 0.64rem !important;
+  margin-top: 0.064rem;
+}
+.btns:checked {
+  background: red;
+}
+.btns:checked::after {
+  content: '';
+  top: 0.1066666667rem;
+  left: 0.1066666667rem;
+  position: absolute;
+  background: transparent;
+  border: #fff solid 2px;
+  border-top: none;
+  border-right: none;
+  height: 0.32rem;
+  width: 0.5333333333rem;
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+footer {
+  margin-top: 16rem;
+  background-color: #f7f9f8;
+}
+footer a {
+  display: block;
+  height: 1.7066666667rem;
+  width: 90%;
+  margin: 0 5%;
+  background-color: #f01734;
+  font-size: 0.5973333333rem;
+  text-align: center;
+  color: #fff;
+  line-height: 1.7066666667rem;
+  border-radius: 0.192rem;
+}
+
+.distpicker-address-wrapper {
+  color: #9caebf;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+}
+
+.distpicker-address-wrapper select {
+  padding: .5rem .75rem;
+  height: 40px;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #464a4c;
+  background-color: #fff;
+  background-image: none;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: .25rem;
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+}
+
+.distpicker-address-wrapper select option {
+  font-weight: normal;
+  display: block;
+  white-space: pre;
+  min-height: 1.2em;
+  padding: 0px 2px 1px;
+}
+
+.distpicker-address-wrapper ul {
+  margin: 0;
+  padding: 0;
+}
+
+.distpicker-address-wrapper ul li {
+  list-style: none;
+}
+
+.distpicker-address-wrapper .address-header {
+  background-color: #fff;
+}
+
+.distpicker-address-wrapper .address-header ul {
+  height: 2.1333333333rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+.distpicker-address-wrapper .address-header ul li {
+  display: inline-block;
+  font-size: 0.7253333333rem;
+  padding: 10px 10px 7px;
+}
+
+.distpicker-address-wrapper .address-header ul li.active {
+  border-bottom: #52697f solid 3px;
+  color: #52697f;
+  line-height: 121px;
+}
+
+.distpicker-address-wrapper .address-container {
+  background-color: #fff;
+}
+
+.distpicker-address-wrapper .address-container ul {
+  height: 12.0533333333rem !important;
+  overflow: auto;
+}
+
+.distpicker-address-wrapper .address-container ul li {
+  height: 1.7066666667rem;
+  border-top: 1px solid #f6f6f6;
+  font-size: 22px !important;
+}
+
+.distpicker-address-wrapper .address-container ul li.active {
+  color: #52697f;
+}
+
+.disabled-color {
+  background: #f8f8f8;
+}
+
+/*# sourceMappingURL=applydata.css.map */

@@ -1,0 +1,69 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: white;
+}
+
+body {
+  background-color: #fff;
+}
+
+header {
+  position: relative;
+  height: 1.8773333333rem;
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #000;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main .box {
+  margin-top: 0.5333333333rem;
+  text-align: center;
+}
+main .box .title {
+  font-size: 0.8533333333rem;
+  margin: 0.5333333333rem 0;
+}
+main .box input {
+  width: 90%;
+  margin: 0.32rem 5%;
+  height: 1.92rem;
+  font-size: 0.64rem;
+  text-align: center;
+  border: 0;
+  outline: none;
+}
+main .box .yes {
+  display: inline-block;
+  width: 70%;
+  margin: 0 15%;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  text-align: center;
+  background-color: red;
+  border-radius: 0.2133333333rem;
+  color: #fff;
+  font-size: 0.64rem;
+}
+main .box .forget {
+  color: #7c7c7c;
+  font-size: 0.64rem;
+  display: inline-block;
+  margin: 1.0666666667rem 0;
+}
+
+/*# sourceMappingURL=inputpay.css.map */

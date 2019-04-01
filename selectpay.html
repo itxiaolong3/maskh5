@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选择支付</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/selectpay.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <link rel="stylesheet" href="./extend/animate.css">
+    <style>
+        .animated {
+            animation-duration: 0.2s;
+        }
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div id="show" v-show="flag"></div>
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>选择支付</p>
+    </header>
+    <main>
+        <div class="title">
+            <p>订单需付金额</p>
+            <p v-cloak>{{money}}元</p>
+        </div>
+        <div class="list" @click="flag=true">
+            <div class="left">
+                <img src="https://csyueshi.com/icon/yuepay.png" alt=""><span>余额支付</span>
+            </div>
+            <img src="./images/right_03.jpg" class="right" alt="">
+        </div>
+        <div class="list" @click="chatpay">
+            <div class="left">
+                <img src="https://csyueshi.com/icon/wxpay.png" alt=""><span>微信支付</span>
+            </div>
+            <img src="./images/right_03.jpg" class="right" alt="">
+        </div>
+        <transition enter-active-class="animated fadeInUp">
+            <div class="confirm" v-show="flag" style="display: none">
+                <p class="tip" v-cloak>余额为{{info.wallet}}元</p>
+                <p class="tip">需要支付{{money}}</p>
+                <input type="password" v-model="pwd" placeholder="请输入支付密码">
+                <div class="item">
+                    <a href="#" @click.prevent="flag=false">取消</a>
+                    <a href="#" @click.prevent="pay">支付</a>
+                </div>
+            </div>
+        </transition>
+        <div class="confirmpay" v-show="confirm" v-cloak>
+            <p class="titles">请确认微信支付是否完成</p>
+            <a href="myorder.html">已完成支付</a>
+            <p class="no" @click="confirm=false">支付遇到问题，重新支付</p>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            flag : false,
+            uid :0,
+            money : 0,
+            orderid : 0,
+            pwd : '',
+            info :{},
+            confirm : false
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Getwallet&uid=${this.uid}`).then(res=>{
+                    console.log(res);
+                    this.info = res.data.data;
+                    // layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                })
+            },
+            pay(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=YuePay&uid=${this.uid}&money=${this.money}&paypsw=${this.pwd}&orderid=${this.orderid}`).then(res=>{
+                    console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code == 1){
+                        setTimeout(()=>{
+                            window.location.href= 'myorder.html?status=1';
+                        },300)
+                    }
+                })
+            },
+            chatpay(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=PayH5&orderid=${this.orderid}&money=${this.money}`).then(res=>{
+                    console.log(res);
+                    var url = res.data.data.mweb_url;
+                    console.log(url);
+                    window.location.href=url;
+                    setTimeout(()=>{
+                        this.confirm=true;
+                    },10000)
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            this.money = localStorage.money;
+            this.orderid = localStorage.orderid;
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

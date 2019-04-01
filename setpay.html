@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>设置密码</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/inputpay.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>修改密码</p>
+    </header>
+    <main>
+        <div class="box">
+            <p class="title">请输入新的支付密码</p>
+            <input type="number" v-model="pwd" placeholder="请输入您新的的支付密码">
+            <a href="#" class="yes" @click.prevent="submit">确定</a>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            pwd : ''
+        },
+        methods:{
+            submit(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Updatepaypsw&uid=${this.uid}&paypsw=${this.pwd}`).then(res=>{
+                    console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code==1){
+                        setTimeout(()=>{
+                            window.location.href='myasset.html';
+                        },300)
+                    }
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+        }
+    })
+</script>
+</body>
+</html>

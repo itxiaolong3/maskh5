@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的分销</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/MyTeam.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <link rel="stylesheet" href="./extend/animate.css">
+    <style>
+        .animated {
+            animation-duration: 0.6s;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>我的团队</p>
+    </header>
+    <main>
+        <div class="mt-top">
+            <input type="text" v-model="text" placeholder="请输入用户名或者用户ID"><button type="button" @click="search">搜索</button>
+        </div>
+            <div class="mt-option">
+                <a href="#" class="mt-options" :class="{'active':flag==1}" @click.prevent="flag=1">
+                    <p>一级团队</p>
+                    <p>合伙人({{data.onehhcount}})粉丝({{data.onefscount}})</p>
+                </a>
+                <a href="#" class="mt-options" :class="{'active':flag==2}" @click.prevent="flag=2">
+                    <p>二级团队</p>
+                    <p>合伙人({{data.twocounthh}})粉丝({{data.twocountfs}})</p>
+                </a>
+            </div>
+            <transition enter-active-class="animated bounceInLeft">
+                <div class="mt-list"  v-show="flag==1">
+                    <a :href="'Teamdetail.html?uid='+item.uid+'&tjname='+item.tjname" class="mt-lists" v-for="item in one">
+                        <img class="mt-head" :src="item.headerimg" alt="" v-if="item.headerimg!='' && item.headerimg!=null">
+                        <img  class="mt-head" src="./images/headerimg.jpg" alt="" v-if="item.headerimg==''  || item.headerimg==null">
+                        <div class="mt-listsm">
+                            <p>{{item.nickname}}</p>
+                            <p>推荐人:{{item.tjname}}</p>
+                            <p>{{item.addtime}}</p>
+                            <p>普通用户</p>
+                        </div>
+                        <img src="https://csyueshi.com/icon/moreicon.png" class="mt-right" alt="">
+                    </a>
+                </div>
+            </transition>
+            <transition enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight">
+                <div class="mt-list"  v-show="flag==2">
+                    <a :href="'Teamdetail.html?uid='+item.uid+'&tjname='+item.tjname" class="mt-lists" v-for="item in two">
+                        <img class="mt-head" :src="item.headerimg" alt="" v-if="item.headerimg!='' && item.headerimg!=null">
+                        <img  class="mt-head" src="./images/headerimg.jpg" alt="" v-if="item.headerimg==''  || item.headerimg==null">
+                        <div class="mt-listsm">
+                            <p>{{item.nickname}}</p>
+                            <p>推荐人:{{item.tjname}}</p>
+                            <p>{{item.addtime}}</p>
+                            <p>普通用户</p>
+                        </div>
+                        <img src="https://csyueshi.com/icon/moreicon.png" class="mt-right" alt="">
+                    </a>
+                </div>
+            </transition>
+            <transition enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight">
+                <div class="mt-list"  v-show="flag==3">
+                    <a :href="'Teamdetail.html?uid='+item.uid+'&tjname='+item.tjname" class="mt-lists" v-for="item in searh">
+                        <img class="mt-head" :src="item.headerimg" alt="" v-if="item.headerimg!='' && item.headerimg!=null">
+                        <img  class="mt-head" src="./images/headerimg.jpg" alt="" v-if="item.headerimg==''  || item.headerimg==null">
+                        <div class="mt-listsm">
+                            <p>{{item.nickname}}</p>
+                            <p>推荐人:{{item.tjname}}</p>
+                            <p>{{item.addtime}}</p>
+                            <p>普通用户</p>
+                        </div>
+                        <img src="https://csyueshi.com/icon/moreicon.png" class="mt-right" alt="">
+                    </a>
+                </div>
+            </transition>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            one :[],
+            two : [],
+            data : {},
+            flag : 1,
+            text : '',
+            searh : []
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Team&uid=${this.uid}`).then(res=>{
+                    this.data = res.data.data;
+                    this.one = res.data.data.one;
+                    this.two = res.data.data.two;
+                    console.log(this.one);
+                })
+            },
+            search(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Team&keywords=${this.text}&uid=${this.uid}`).then(res=>{
+                    var searchone = res.data.data.one;
+                    var searchtwo = res.data.data.two;
+                    this.searh = searchone.concat(searchtwo);
+                    this.flag = 3;
+                    layer.open({content: `共搜索到${this.searh.length}条数据`, skin: 'msg',time : 2});
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            this.getdata()
+        }
+    })
+</script>
+</body>
+</html>

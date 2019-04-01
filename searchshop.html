@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>搜索</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/serachshop.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>搜索</p>
+    </header>
+    <main>
+        <div class="cf-search">
+            <input type="text" v-model="text"><button type="button" @click="search">搜索</button>
+        </div>
+        <div class="list">
+            <a :href="'shopdetail.html?gid='+item.gID" class="lists" v-for="item in good">
+                <div class="left">
+                    <img :src="item.Itemcover" alt="" class="left">
+                </div>
+                <div class="right">
+                    <p>{{item.Title}}</p>
+                    <p><span>{{item.integral}}</span><span>{{item.TotalQty}}</span></p>
+                    <p>￥ <span>￥{{item.Price}}</span></p>
+                </div>
+            </a>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            text : '',
+            good :[]
+        },
+        methods:{
+            search(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Findgood&keywords=${this.text}`).then(res=>{
+                    console.log(res);
+                    this.good= res.data.data.list;
+                    if(res.data.data.total==''||res.data.data.total==0){
+                        layer.open({content: '暂无商品', skin: 'msg',time : 2});
+                    }else{
+                        layer.open({content: `共搜索到${res.data.data.total}件商品`, skin: 'msg',time : 2});
+                    }
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

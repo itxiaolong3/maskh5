@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>签到</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/signIn.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <link rel="stylesheet" href="./extend/animate.css">
+    <style>
+        .animated {
+            animation-duration: 0.6s;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>签到</p>
+    </header>
+    <main>
+        <div class="topimg">
+            <img src="https://csyueshi.com/icon/qiandao.jpg" alt="">
+        </div>
+        <button class="signIn" :disabled="signin.code==1" @click="todaysignIn" :class="{'signIns':signin.data==false}">{{signin.msg}}</button>
+        <div class= "item">
+            <div class="list" @click="send(0)">
+                <p>总积分</p>
+                <p>{{data.alljifeng}}</p>
+            </div>
+            <div class="list" @click="send(0)">
+                <p>剩余积分</p>
+                <p>{{data.shengjifeng}}</p>
+            </div>
+            <div class="list" @click="send(2)">
+                <p>签到积分</p>
+                <p>{{data.qiandaojifeng}}</p>
+            </div>
+            <div class="list" @click="send(1)">
+                <p>消费积分</p>
+                <p>{{data.payjifeng}}</p>
+            </div>
+        </div>
+        <div class="detail">
+            <div class="detailtitle">
+                <p>日期</p>
+                <p>签到情况</p>
+                <p>积分</p>
+            </div>
+            <!--总积分或者剩余积分列表，这个两个返回数据一样0-->
+            <transition enter-active-class="animated bounceInLeft">
+                <div class="detailitem" v-show="show==0">
+                    <div class="detailitems" v-for="item in listallorSurplus">
+                        <p>{{item.cerated_time}}</p>
+                        <p>{{item.note}}</p>
+                        <p>{{item.score}}</p>
+                    </div>
+                </div>
+            </transition>
+            <!-- 消费积分列表1-->
+            <transition enter-active-class="animated bounceInLeft">
+                <div class="detailitem" v-show="show==1">
+                    <div class="detailitems" v-for="item in listconsume">
+                        <p>{{item.cerated_time}}</p>
+                        <p>{{item.note}}</p>
+                        <p>{{item.score}}</p>
+                    </div>
+                </div>
+            </transition>
+            <!--签到积分列表2-->
+            <transition enter-active-class="animated bounceInLeft">
+                <div class="detailitem" v-show="show==2">
+                    <div class="detailitems" v-for="item in listsignin">
+                        <p>{{item.cerated_time}}</p>
+                        <p>{{item.note}}</p>
+                        <p>{{item.score}}</p>
+                    </div>
+                </div>
+            </transition>
+            <!--进来默认-->
+            <transition enter-active-class="animated bounceInLeft">
+                <div class="detailitem" v-show="show==4">
+                    <div class="detailitems" v-for="item in list">
+                        <p>{{item.cerated_time}}</p>
+                        <p>{{item.note}}</p>
+                        <p>{{item.score}}</p>
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            data: {},
+            list :[],
+            listconsume :[],
+            listsignin : [],
+            listallorSurplus : [],
+            show :4,
+            signin :{}
+        },
+        methods:{
+            send(type){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=SinginList&uid=${this.uid}&type=${type}`).then(res=>{
+                    // console.log(res);
+                    console.log(type);
+                    if(type==0){  //总积分或者剩余积分
+                        this.listallorSurplus = res.data.data.list;
+                        console.log('总积分或者剩余积分');
+                        console.log(this.listallorSurplus);
+                    }else if(type==1){  //消费积分
+                        this.listconsume = res.data.data.list;
+                        console.log('消费积分');
+                        console.log(this.listconsume);
+                    }else{   //签到积分
+                        this.listsignin = res.data.data.list;
+                        console.log('签到积分');
+                        console.log(this.listsignin);
+                    }
+                    this.show = type;
+                });
+            },
+            todaysignIn(){  //签到
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Singin&uid=${this.uid}`).then(res=>{
+                    // console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code==1){
+                        this.testsign();
+                        this.getlist();
+                    }
+                });
+            },
+            testsign(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=TodaySingin&uid=${this.uid}`).then(res=>{
+                    this.signin =res.data;
+                    // console.log(this.signin);
+                });
+            },
+            getlist(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=SinginList&uid=${this.uid}`).then(res=>{
+                    // console.log(res);
+                    this.data = res.data.data;
+                    this.list = res.data.data.list;
+                });
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            //获取是否签到
+            this.testsign();
+            //获取默认列表
+            this.getlist();
+        }
+    })
+</script>
+</body>
+</html>

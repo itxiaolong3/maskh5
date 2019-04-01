@@ -1,0 +1,84 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f6f6f6;
+}
+
+body {
+  background-color: #f6f6f6;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #e9323c;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #fff;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 1.6rem;
+}
+.info{
+  overflow: hidden;
+}
+main .info .date {
+  height: 1.8133333333rem;
+  font-size: 0.5333333333rem;
+  color: #000000;
+  background-color: white;
+  padding-left: 1.1733333333rem;
+  font-weight: 700;
+  line-height: 1.8133333333rem;
+}
+main .info .list {
+  width: 94%;
+  margin: 0.384rem 3% 0;
+  height: 2.1333333333rem;
+  display: flex;
+  padding: 0 0.7466666667rem;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: white;
+  justify-content: space-between;
+  border-radius: 0.3413333333rem;
+}
+main .info .list .box {
+  display: flex;
+  align-items: center;
+}
+main .info .list .box img {
+  width: 0.96rem;
+  height: 0.64rem;
+  margin-right: 0.4266666667rem;
+}
+main .info .list .box .middle {
+  font-size: 0.4693333333rem;
+  color: #000;
+}
+main .info .list .right {
+  font-size: 0.512rem;
+}
+
+.yes {
+  color: blue;
+}
+
+/*# sourceMappingURL=catchRecord.css.map */

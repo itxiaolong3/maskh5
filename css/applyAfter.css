@@ -1,0 +1,120 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: white;
+}
+
+body {
+  background-color: #fff;
+}
+
+header {
+  position: relative;
+  height: 1.8773333333rem;
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #000;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main .top {
+  height: 5.3333333333rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+}
+main .top img {
+  width: 4.2666666667rem;
+  height: 4.2666666667rem;
+  margin: 0 0.64rem;
+}
+main .top .info {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+main .top .info p {
+  color: #292929;
+  font-size: 0.5546666667rem;
+}
+main .top .info div {
+  display: flex;
+  justify-content: space-between;
+}
+main .top .info div span:first-child {
+  color: #ed1832;
+  font-weight: 700;
+  font-size: 0.4906666667rem;
+}
+main .top .info div span:last-child {
+  color: #6d6d6d;
+  font-size: 0.512rem;
+  margin-right: 0.64rem;
+}
+main .input {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+main .input p {
+  margin-top: 0.4266666667rem;
+}
+main .input input {
+  font-size: 0.64rem;
+  color: #7a7a7a;
+  border: 0;
+  text-align: center;
+  outline: none;
+}
+main .serve {
+  display: flex;
+  align-items: center;
+  margin: 0.8106666667rem 0;
+}
+main .serve span {
+  font-size: 0.6186666667rem;
+  color: #000;
+  margin-left: 0.32rem;
+}
+main .serve p {
+  padding: 0.3413333333rem 0.32rem;
+  background-color: #fff;
+  color: #000;
+  font-size: 0.5333333333rem;
+  border-radius: 0.192rem;
+  border: 2px solid #ef3148;
+  margin-left: 0.4266666667rem;
+}
+main .submit {
+  font-size: 0.5973333333rem;
+  height: 1.7066666667rem;
+  width: 94%;
+  background-color: #ed1731;
+  display: block;
+  text-align: center;
+  line-height: 1.7066666667rem;
+  border-radius: 0.192rem;
+  margin: 0 3%;
+  color: #fff;
+}
+
+.active {
+  background-color: #ed1731 !important;
+}
+
+/*# sourceMappingURL=applyAfter.css.map */

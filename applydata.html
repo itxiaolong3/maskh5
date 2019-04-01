@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>申请资料</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/applydata.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/v-distpicker.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>申请资料</p>
+    </header>
+    <main>
+        <div class="input">
+            <div class="list">
+                <span>姓名:</span><input type="text" v-model="name" placeholder="请填的名字">
+            </div>
+            <div class="list">
+                <span>手机号码:</span><input type="number" v-model="tel" placeholder="请输入手机号码">
+            </div>
+            <div class="list">
+                <span>常住地址:</span><span class="city" @click="toAddress">{{city}}</span>
+                <v-distpicker type="mobile" @selected='selected' v-show="addInp">
+                </v-distpicker>
+            </div>
+            <div class="list">
+                <span>备注:</span><input type="text" v-model="text" placeholder="请输入备注">
+            </div>
+            <div class="list">
+                <input type="checkbox" name="sex" v-model="flag" class="label btns"><span>阅读区域团队协议:</span>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <a href="#" @click.prevent="validate">提交申请</a>
+    </footer>
+</div>
+<script>
+    Vue.component('v-distpicker', VDistpicker);
+    new Vue({
+        el : '#app',
+        data :{
+            city:'请选择',
+            addInp :false,
+            name : '',
+            tel : '',
+            flag :false,
+            text : '',
+            uid : 0
+        },
+        methods:{
+            // 点击弹出三级联动
+            toAddress(){
+                this.mask = true;
+                this.addInp = true;
+            },
+            // 省市区三级联动
+            selected(data){
+                this.mask =false;
+                this.addInp = false;
+                this.city = data.province.value + ' ' + data.city.value +' ' + data.area.value
+
+            },
+            validate(){
+                if (!(/^[\u4e00-\u9fa5]{2,4}$/.test(this.name))) {
+                    layer.open({content: '姓名填写有误', skin: 'msg',time : 2});
+                    return false;
+                }
+                if (!(/^1(3|4|5|7|8|9)\d{9}$/.test(this.tel))) {
+                    layer.open({content: '手机号码有误，请重写', skin: 'msg',time : 2});
+                    return false;
+                }
+                if(this.city=='请选择'){
+                    layer.open({content: '请选择您的常住地址', skin: 'msg',time : 2});
+                    return false;
+                }
+                if(this.flag==false){
+                    layer.open({content: '您需要同意协议', skin: 'msg',time : 2});
+                    return false;
+                }
+                this.submit()
+            },
+            submit(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Sqproorcity&uid=${this.uid}&name=${this.name}&phone=${this.tel}&address=${this.city}&comment=${this.text}`).then(res=>{
+                    console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code==1){
+                        setTimeout(()=>{
+                            window.location.href='myzone.html';
+                        },1000)
+                    }
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的会员卡</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/myVipcards.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>我的会员卡</p>
+    </header>
+    <main>
+        <div class="pl-top">
+            <img  class="pl-head"  v-if="personaldata.headerimg!='' &&  personaldata.headerimg!=null" v-cloak :src="personaldata.headerimg" alt="">
+            <img  class="pl-head"  v-if="personaldata.headerimg=='' || personaldata.headerimg==null" v-cloak src="./images/headerimg.jpg" alt="">
+            <p>{{personaldata.nickname}}</p>
+            <div class="pl-classify">
+                <img src="https://csyueshi.com/icon/leve_icon.png" alt=""><span v-if="personaldata.level=='0'">普通用户</span><span v-if="personaldata.level=='1'">合伙人</span><span v-if="personaldata.level=='2'">银卡合伙人</span><span v-if="personaldata.level=='3'">金卡合伙人</span><span class="vip" v-if="personaldata.quyuid=='4'">市级代理商</span><span class="vip" v-if="personaldata.quyuid=='5'">省级代理商</span>
+            </div>
+        </div>
+        <a href="partnerargument.html" class="Agreement">查看用户协议</a>
+        <div class="vc-see">
+            <p class="vc-seeone">直接销售额</p>
+            <div class="vc-direct"><div class="item"><span class="bc"></span><p class="schedule" ref="schedule"></p></div><span>{{onedata}}%</span></div>
+            <div class="vc-moneyok">
+                <p>金额成交量</p>
+                <p>{{data.completenum}}/{{data.zhituinum}}</p>
+            </div>
+            <p class="vc-seeone">银卡代理</p>
+            <div class="vc-direct"><div class="item"><span class="bc"></span><p class="schedules" ref="schedules"></p></div><span>{{twodata}}%</span></div>
+            <div class="vc-moneyok"><p>推广成交量</p><p>{{data.completeyinkanum}}/{{data.yingkanum}}人</p></div>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            personaldata:{},
+            data :  {},
+            onedata:0,
+            twodata :0,
+        },
+        methods:{
+            getdata(){
+                //获取个人资料
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=VipindexInfo&uid=${this.uid}`).then(res=>{
+                    this.personaldata = res.data.data;
+                    console.log(this.personaldata);
+                });
+                //获取数据
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Myvip&uid=${this.uid}`).then(res=>{
+                    console.log(res);
+                    this.data = res.data.data;
+                    function clear(str) {
+                        str = str.replace(/,/g, "");//取消字符串中出现的所有逗号
+                        return str;
+                    }
+                    var ones = (clear(this.data.completenum)/clear(this.data.zhituinum)).toString();
+                    if(ones!=0){
+                        this.onedata = ones.substr(2,2);
+                    }
+                    console.log(this.onedata);
+                    var twos = (clear(this.data.completeyinkanum)/clear(this.data.yingkanum)).toString();
+                    if(twos!=0){
+                        this.twodata = twos.substr(2,2);
+                    }
+                    console.log(twos);
+                    console.log(this.twodata);
+                    // console.log(onedata, twodata);
+                    var one  = this.$refs.schedule;
+                    var two = this.$refs.schedules;
+                    one.style.width = this.onedata+'%';
+                    two.style.width= this.twodata + '%';
+                });
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

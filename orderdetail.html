@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单详情</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/orderdetail.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+        .layui-m-layercont{
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>订单详情</p>
+    </header>
+    <main>
+        <!--<div class="compony">-->
+            <!--<p>物流公司:圆通</p>-->
+            <!--<p>物流单号:818614833231</p>-->
+        <!--</div>-->
+        <div class="compony">
+            <p v-if="orderdetail.state=='1'" v-cloak>等待买家付款</p>
+            <p v-if="orderdetail.state=='4'" v-cloak>交易完成</p>
+            <p v-if="orderdetail.state=='2'" v-cloak>等待商家发货</p>
+            <p v-if="orderdetail.state=='3'" v-cloak>商家已发货</p>
+            <p v-if="orderdetail.state=='6'" v-cloak>已申请退款</p>
+            <p v-if="orderdetail.state=='5'" v-cloak>订单已取消</p>
+            <p v-if="orderdetail.state=='7'" v-cloak>已同意退款</p>
+            <p v-if="orderdetail.state=='8'" v-cloak>拒绝退款</p>
+        </div>
+        <div class="address">
+            <img src="./images/orderdetail_03.jpg" alt="">
+            <div class="addressx">
+                <p v-cloak>{{orderdetail.name}} {{orderdetail.tel}}</p>
+                <p v-cloak>{{orderdetail.address}}</p>
+            </div>
+        </div>
+        <div class="shop">
+            <img :src="goodlist.img" alt="" v-cloak>
+            <div class="shoptext">
+                <p class="shoptitle" v-cloak>{{goodlist.name}}</p>
+                <div class="shopdet">
+                    <p class="shopadd" v-cloak>+{{goodlist.integral}}积分 已售{{goodlist.TotalQty}}</p>
+                    <div class="shopcount">
+                        <p v-cloak>￥{{goodlist.money}}</p>
+                        <p v-cloak>X{{goodlist.number}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="money">
+            <p>订单金额</p>
+            <p v-cloak>￥{{orderdetail.money}}</p>
+        </div>
+        <div class="turemoney">
+            <p>订单金额</p>
+            <p v-cloak>￥{{orderdetail.money}}</p>
+        </div>
+        <div class="order">
+            <div class="item">
+                <p>订单编号</p>
+                <p v-cloak>{{orderdetail.order_num}}</p>
+            </div>
+            <div class="item">
+                <p>下单日期</p>
+                <p v-cloak>{{orderdetail.time}}</p>
+            </div>
+            <!--<div class="item">-->
+                <!--<p>发货日期</p>-->
+                <!--<p>2019-02-28 15:43:21</p>-->
+            <!--</div>-->
+            <div class="item" style="justify-content: flex-end">
+                <p>门店自提</p>
+            </div>
+        </div>
+    </main>
+    <footer v-if="orderdetail.state=='1'" v-cloak>
+        <a href="#" @click.prevent="cancel">取消订单</a>
+    </footer>
+    <footer v-if="orderdetail.state=='2'" v-cloak>
+        <a href="#" @click.prevent="apply">申请退款</a>
+    </footer>
+    <footer v-if="orderdetail.state=='3'" @click="confirm" v-cloak>
+        <a href="#">确认收货</a>
+    </footer>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            orderid : 0,
+            orderdetail : {},
+            goodlist:[]
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=GetDetailOrder&orderid=${this.orderid}`).then(res=>{
+                    console.log(res);
+                    this.orderdetail = res.data.data;
+                    this.goodlist =res.data.data.goodlist[0];
+                    // layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                })
+            },
+            apply(){
+                layer.open({
+                    content: '确认收货之后将不能进行退款/退货'
+                    ,btn: ['确定', '取消']
+                    ,yes:(index)=>{
+                        axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=OkMyOrder&id=${this.orderdetail.id}&ordernumber=${this.orderdetail.order_num}`).then(res=>{
+                            layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                            // console.log(res);
+                            if(res.data.code==1){
+                                setTimeout(()=>{
+                                    location.reload();
+                                },500)
+                            }
+                        });
+                        layer.close(index);
+                    }
+                });
+            },
+            cancel(){
+
+                layer.open({
+                    content: '您即将取消订单,此订单记录将永久取消,是否确定取消'
+                    ,btn: ['确定', '取消']
+                    ,yes:(index)=>{
+                        axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=CancelMyOrder&oid=${this.orderdetail.id}`).then(res=>{
+                            layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                            console.log(res);
+                            if(res.data.code==1){
+                                setTimeout(()=>{
+                                    location.reload();
+                                },500)
+                            }
+                        })
+                        layer.close(index);
+                    }
+                });
+            },
+            confirm(){
+                console.log(this.orderdetail);
+                layer.open({
+                    content: '您即将申请退款，货款将直接退回到您的付款账户，是否确定退款?'
+                    ,btn: ['确定', '取消']
+                    ,yes:(index)=>{
+                        window.location.href='applyAfter.html?orderid='+this.orderid;
+                        layer.close(index);
+                    }
+                });
+            }
+        },
+        created(){
+            function getQueryString(name){
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]);return '';
+            }
+            this.orderid=getQueryString("orderid");
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #000;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 1.6rem;
+}
+main .option {
+  background-color: #fff;
+  width: 94%;
+  padding: 0 3%;
+  height: 2.1333333333rem;
+  display: flex;
+}
+main .option a {
+  flex: 1;
+  font-size: 0.5546666667rem;
+  color: #8a8a8a;
+  text-align: center;
+  line-height: 2.1333333333rem;
+}
+main .shop .list {
+  background-color: #fff;
+  margin-top: 0.4266666667rem;
+}
+main .shop .list .top {
+  border-bottom: 1px solid #e4e4e4;
+  height: 1.7066666667rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.64rem;
+}
+main .shop .list .top p:first-child {
+  font-size: 0.5333333333rem;
+  color: #959595;
+}
+main .shop .list .top p:last-child {
+  font-size: 0.5973333333rem;
+  color: #e80000;
+}
+main .shop .list .middle {
+  width: 94%;
+  margin: 0 3%;
+  display: flex;
+  height: 5.3333333333rem;
+  padding: 0.4266666667rem 0;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e4e4e4;
+}
+main .shop .list .middle img {
+  width: 4.2666666667rem;
+  height: 4.2666666667rem;
+}
+main .shop .list .middle .shoptext {
+  margin-left: 0.2773333333rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+}
+main .shop .list .middle .shoptext .shoptitle {
+  font-size: 0.5333333333rem;
+  color: #272727;
+}
+main .shop .list .middle .shoptext .shopdetail .shopadd {
+  font-size: 0.5333333333rem;
+  color: #797979;
+}
+main .shop .list .middle .shoptext .shopdetail .money {
+  margin-top: 0.32rem;
+  display: flex;
+  justify-content: space-between;
+}
+main .shop .list .middle .shoptext .shopdetail .money p:first-child {
+  font-size: 0.4693333333rem;
+  font-weight: 700;
+  color: #ea0014;
+}
+main .shop .list .middle .shoptext .shopdetail .money p:last-child {
+  font-size: 0.4266666667rem;
+  color: #6d6d6d;
+  font-weight: 700;
+}
+main .shop .bottom {
+  height: 1.92rem;
+  padding: 0 0.5333333333rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+main .shop .bottom .bottoml {
+  font-size: 0.5546666667rem;
+  color: #1f1c1c;
+}
+main .shop .bottom .bottoml span {
+  color: #ec0521;
+}
+main .shop .bottom a {
+  height: 1.1733333333rem;
+  border: 2px solid #e81731;
+  background-color: #fff;
+  color: #e81731;
+  font-size: 0.5546666667rem;
+  width: 2.56rem;
+  border-radius: 0.1706666667rem;
+  text-align: center;
+  line-height: 1.1733333333rem;
+  font-weight: 700;
+  display: inline-block;
+  margin-left: 0.3rem;
+}
+
+.active {
+  border-bottom: 6px solid #ed1731;
+}
+.no{
+  position: absolute;
+  top : 40%;
+  width: 90%;
+  text-align: center;
+  margin: 0 5%;
+  color :#1b1b1b;
+  font-size: 0.6826666667rem;
+}
+
+/*# sourceMappingURL=myorder.css.map */

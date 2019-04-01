@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的分销</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/myPrivilege.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>我的特权</p>
+    </header>
+    <main>
+        <div class="pl-top">
+            <img  class="pl-head" v-if="data.headerimg!='' &&  data.headerimg!=null" v-cloak :src="data.headerimg" alt="">
+            <img  class="pl-head" v-if="data.headerimg=='' || data.headerimg==null" v-cloak src="./images/headerimg.jpg" alt="">
+            <p>{{data.nickname}}</p>
+            <div class="pl-classify">
+                <img src="https://csyueshi.com/icon/leve_icon.png" alt=""><span v-if="data.level=='0'">普通用户</span><span v-if="data.level=='1'">合伙人</span><span v-if="data.level=='2'">银卡合伙人</span><span v-if="data.level=='3'">金卡合伙人</span><span class="vip" v-if="data.quyuid=='4'">市级代理商</span><span class="vip" v-if="data.quyuid=='5'">省级代理商</span>
+            </div>
+        </div>
+        <div class="pl-list">
+            <a href="mypartner.html" class="pl-item" @click.prevent="test">
+                <div class="pl-left">
+                    <img src="https://csyueshi.com/icon/togeticon.png" alt="">
+                    <div class="pl-lists">
+                        <p>合伙人</p>
+                        <p>非合伙人</p>
+                    </div>
+                </div>
+                <div class="pl-right">
+                    <img  src="./images/right_03.jpg" alt="">
+                </div>
+            </a>
+            <a href="myVipcard.html" class="pl-item">
+                <div class="pl-left">
+                    <img src="https://csyueshi.com/icon/vipicon.png" alt="">
+                    <div class="pl-lists">
+                        <p>会员卡</p>
+                        <p>银卡合伙人</p>
+                    </div>
+                </div>
+                <div class="pl-right">
+                    <img  src="./images/right_03.jpg" alt="">
+                </div>
+            </a>
+            <a href="myzone.html" class="pl-item">
+                <div class="pl-left">
+                    <img src="https://csyueshi.com/icon/quyuicon.png" alt="">
+                    <div class="pl-lists">
+                        <p>区域商</p>
+                        <p>申请成为区域商</p>
+                    </div>
+                </div>
+                <div class="pl-right">
+                    <img  src="./images/right_03.jpg" alt="">
+                </div>
+            </a>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            data:{}
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=VipindexInfo&uid=${this.uid}`).then(res=>{
+                    this.data = res.data.data;
+                    console.log(this.data);
+                })
+            },
+            test(){
+                if(this.data.level==0){
+                    layer.open({content: '你还不是合伙人', skin: 'msg',time : 2});
+                }else{
+                    window.location.href='mypartner.html';
+                }
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

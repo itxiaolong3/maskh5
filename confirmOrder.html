@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>确认订单</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/confirmOrder.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>确认订单</p>
+    </header>
+    <main>
+        <a href="myaddress.html" class="co-people">
+            <div class="ce-peoples">
+                <p v-cloak>收货人: <span> {{address.address}}   {{address.detailadd}}</span></p>
+                <p v-cloak>收货地址: <span> {{address.name}}</span></p>
+            </div>
+            <img src="./images/right_03.jpg" alt="">
+        </a>
+        <div class="ce-add" v-if="flag">
+            <a href="addaddress.html">添加收货地址</a>
+        </div>
+        <div class="ce-detail">
+            <div class="ce-top">
+                <img :src="good.Itemcover" alt="">
+                <div class="ce-detailr">
+                    <p class="ce-title">{{good.Title}}</p>
+                    <div class="ce-detailb">
+                        <p>+{{good.integral}}积分，已售{{good.TotalQty}}</p>
+                        <p><span>￥{{good.Price}}</span><span>X{{num}}</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="ce-bottom">
+                <p>运费 ￥{{good.freight}}</p>
+                <p>共{{num}}件商品  小计<span>￥{{parseFloat(good.Price * num) + parseFloat(good.freight)*parseFloat(num)}}</span></p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>合计:<span>￥{{parseFloat(good.Price * num) + parseFloat(good.freight)*parseFloat(num)}}</span></p>
+        <a href="selectpay.html" @click.prevent="buy">立即支付</a>
+    </footer>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            flag : false,
+            address :{
+                address: "",
+                detailadd: "",
+                is_default: "",
+                name: "",
+                gid : 0,
+                num : 0
+            },
+            num :0,
+            gid : 0,
+            good :{},
+            aid :'',
+            arr :[]
+        },
+        methods:{
+            testAddress(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=GetDefaultaddress&uid=${this.uid}`).then(res=>{
+                    // console.log(res);
+                    if(res.data.data.Result==false){
+                        layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                        this.flag = true;
+                    }
+                    if(this.aid==''){
+                        this.address = res.data.data.addre;
+                        this.aid = this.address.aid;
+                    }
+                })
+            },
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Onegood&gid=${this.gid}`).then(res=>{
+                    this.good = res.data.data[0];
+                    console.log(this.good);
+                })
+            },
+            buy(){
+                var money = parseFloat(this.good.Price * this.num) + parseFloat(this.good.freight)*parseFloat(this.num);
+                // this.arr.push(this.good);
+                // console.log(this.arr);
+                // let newdatas=JSON.stringify(this.arr);
+                // console.log(typeof newdatas);
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=AddMyOrdertest`,`uid=${this.uid}&aid=${this.aid}&money=${money}&totalfregth=${this.good.freight}&num=${this.num}&gid=${this.good.gID}&integral=${this.good.integral}&TotalQty=${this.good.TotalQty}`).then((res)=>{
+                    console.log(res);
+                    layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                    if(res.data.code==1){
+                        localStorage.money = money;
+                        localStorage.orderid = res.data.data;
+                        setTimeout(()=>{
+                            window.location.href='selectpay.html';
+                        },200)
+                    }
+                })
+
+                // axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=AddMyOrdertest&uid=${this.uid}&aid=${this.aid}&money=${money}&totalfregth=12&type=1&arr=${newdatas}`).then(res=>{
+                //     console.log(res);
+                //     // console.log(this.good);
+                // })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            this.gid = localStorage.gid;
+            this.num = localStorage.num;
+            this.testAddress();
+            this.getdata();
+            function getQueryString(name){
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]);return '';
+            }
+            this.aid = getQueryString("aid");
+            if(this.aid!=''){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=getoneAdd&aid=${this.aid}`).then(res=>{
+                    this.address = res.data.data;
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的分销</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/myaddress.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/back.png" alt=""></a>
+        <p>我的地址</p>
+    </header>
+    <main>
+        <div class="mr-list" v-for="item in address" @click="select(item.aid)">
+            <div class="mr-top">
+                <p>收货人:{{item.name}}</p>
+                <p>{{item.phone}}</p>
+            </div>
+            <div class="mr-middle">
+                <p>收货地址:{{item.address}}-{{item.detailadd}}</p>
+            </div>
+            <div class="mr-right">
+                <a :href="'editaddress.html?aid='+item.aid">编辑</a>
+                <a href="#" @click.prevent="del(item.aid)">删除</a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <a href="addaddress.html">添加</a>
+    </footer>
+</div>
+<script>
+    new Vue({
+        el :'#app',
+        data :{
+            uid :0,
+            address :[],
+            aid :0
+        },
+        methods:{
+            del(aid){
+                this.aid =aid;
+                layer.open({
+                    content: '确定删除该收货地址吗?'
+                    ,btn: ['确定', '取消']
+                    ,yes:(index,gid)=>{
+                        axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=DelAdd&uid=${this.uid}&aid=${this.aid}`).then(res=>{
+                            // console.log(res);
+                            layer.open({content: res.data.msg, skin: 'msg',time : 2});
+                            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=MyAddress&uid=${this.uid}`).then(res=>{
+                                this.address  = res.data.data;
+                                // console.log(res);
+                            })
+                        })
+                        layer.close(index);
+                    }
+                });
+            },
+            select(aid){
+                // history.back(-1);
+                var str  = document.referrer;
+                console.log(str);
+                if(str.includes('confirmOrder')){
+                    window.location.href='confirmOrder.html?aid='+aid;
+                }
+            }
+        },
+        created(){
+            this.uid =localStorage.uid;
+            axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=MyAddress&uid=${this.uid}`).then(res=>{
+                this.address = res.data.data;
+                if(this.address.length==0){
+                    layer.open({content: '你没有地址', skin: 'msg',time : 2});
+                }
+                console.log(this.address);
+            })
+        }
+    })
+</script>
+</body>
+</html>

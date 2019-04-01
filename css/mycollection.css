@@ -1,0 +1,96 @@
+.container {
+  width: 16rem;
+  margin: 0 auto;
+  background-color: white;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+header {
+  position: fixed;
+  top:0;
+  width: inherit;
+  height: 1.8773333333rem;
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.768rem;
+  line-height: 1.8773333333rem;
+  color: #000;
+}
+header .return {
+  position: absolute;
+  left: 0.5546666667rem;
+  bottom: 0.5546666667rem;
+  width: 0.4266666667rem;
+  height: 0.768rem;
+}
+header .return img {
+  width: 0.4266666667rem;
+  height: 0.768rem;
+  vertical-align: top;
+}
+
+main {
+  margin-top: 1.8773333333rem;
+  margin-bottom: 1.6rem;
+}
+main .ce-item {
+  background-color: #f8f8f8;
+}
+main .ce-item .ce-list {
+  background-color: #fff;
+  margin-top: 0.0426666667rem;
+  padding: 0.64rem;
+  display: flex;
+}
+main .ce-item .ce-list a {
+  display: flex;
+  flex: 1;
+}
+main .ce-item .ce-list .ce-left {
+  width: 3.4133333333rem;
+  height: 3.84rem;
+  margin-left: 0.5333333333rem;
+}
+main .ce-item .ce-list .ce-right {
+  margin-left: 0.32rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+main .ce-item .ce-list .ce-right p {
+  font-size: 0.5973333333rem;
+}
+main .ce-item .ce-list .ce-right .ce-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+main .ce-item .ce-list .ce-right .ce-bottom span {
+  font-size: 0.6613333333rem;
+  color: #ec0622;
+  font-weight: 700;
+}
+main .ce-item .ce-list .ce-right .ce-bottom img {
+  width: 0.7253333333rem;
+  height: 0.6613333333rem;
+  margin-top: 0.064rem;
+}
+
+.title {
+  color: #000;
+}
+
+.right {
+  display: flex;
+  align-items: flex-end;
+}
+.right img {
+  width: 0.7253333333rem;
+  height: 0.6613333333rem;
+  margin-bottom: 0.1066666667rem;
+}
+
+/*# sourceMappingURL=mycollection.css.map */

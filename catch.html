@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的分销</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/catch.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>提现</p>
+    </header>
+    <main>
+        <div class="option">
+            <div class="box">
+                <img src="./images/catch_03.jpg" alt="">
+                <div class="info">
+                    <p>银行卡</p>
+                    <p v-if="tel!=0">{{tel}}</p>
+                    <p v-if="tel==0">暂无</p>
+                </div>
+            </div>
+            <input type="checkbox" v-model="flag" name="bank" value="1" class="label btns">
+        </div>
+        <div class="list">
+            <a href="catchRecord.html">提现记录</a>
+            <a href="accountmange.html">提现账号管理</a>
+            <a href="confirmcatch.html" @click.prevent="confirm">确认提现账号</a>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            uid :0,
+            tel :0,
+            flag : 0
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=GetCard&uid=${this.uid}`).then(res=>{
+                    console.log(res);
+                    if(res.data.data==false){
+                        this.tel = 0;
+                    }else{
+                        function fn(phone) {
+                            phone = phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+                            return phone;
+                        }
+                        this.tel = fn(res.data.data.phone);
+                    }
+                })
+            },
+            confirm(){
+                // console.log(this.flag);
+                if(this.tel==0){
+                    layer.open({content: '您暂时还未添加银行卡', skin: 'msg',time : 2});
+                    return false;
+                }
+                if(this.flag!=true){
+                    layer.open({content: '您还未选择银行卡', skin: 'msg',time : 2});
+                    return false;
+                }
+                window.location.href='confirmcatch.html';
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>

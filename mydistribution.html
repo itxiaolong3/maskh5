@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的分销</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/mydistribution.css">
+    <script src="./js/Transformation.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./extend/layer/layer.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <header>
+        <a href="javascript:history.go(-1);" class="return"><img src="./images/backs.jpg" alt=""></a>
+        <p>我的分销</p>
+    </header>
+    <main>
+        <div class="db-top">
+            <img :src="data.headerimg" alt="" v-if="data.headerimg!='' && data.headerimg!=null">
+            <img src="./images/headerimg.jpg" alt="" v-if="data.headerimg=='' ||  data.headerimg==null">
+            <div class="db-info">
+                <p>{{data.nickname}}</p>
+                <p>推荐人:{{data.tjname}}</p>
+            </div>
+        </div>
+        <div class="db-balance">
+            <div class="db-balances">
+                <p>待结算(当月)</p>
+                <p>{{record.nosettlement}}元</p>
+            </div>
+            <div class="db-balances">
+                <p>已结算(当月)</p>
+                <p>{{record.settlement}}元</p>
+            </div>
+        </div>
+        <div class="db-list">
+            <a href="MyTeam.html" class="db-lists">
+                <img src="https://csyueshi.com/icon/teamicon.png" alt="">
+                <p>我的团队({{record.teamcount}})人</p>
+            </a>
+            <a href="code.html" class="db-lists">
+                <img src="https://csyueshi.com/icon/qrcodeicon.png" alt="">
+                <p>推广二维码</p>
+            </a>
+            <a href="Cumulativeincome.html" class="db-lists">
+                <img src="https://csyueshi.com/icon/syicon.png" alt="">
+                <p>累计收益</p>
+            </a>
+        </div>
+    </main>
+</div>
+<script>
+    new Vue({
+        el : '#app',
+        data :{
+            uid :0,
+            data :{},
+            record :{}
+        },
+        methods:{
+            getdata(){
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Gettream&uid=${this.uid}`).then(res=>{
+                    this.record = res.data.data;
+                    console.log(this.record);
+                    this.data = res.data.data.userinfo;
+                    // console.log(this.data);
+                })
+                axios.post(`https://csyueshi.com/app/index.php?i=3&c=entry&a=wxapp&m=mask&do=Qrcodeinfo&uid=${this.uid}`).then(res=>{
+                    console.log(res);
+                })
+            }
+        },
+        created(){
+            this.uid = localStorage.uid;
+            this.getdata();
+        }
+    })
+</script>
+</body>
+</html>
